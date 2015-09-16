@@ -1,7 +1,79 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿<!DOCTYPE html>
+ 
+<html>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/angular.min.js"></script>
+<body>
+    <div  class="container" ng-app="mainapp" ng-controller="serviceCtrl">
 
-<h2>Index</h2>
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search">
+                </div>
+            </div>
+        </form>
+        
+       <table class="table table-bordered table-striped">
+         
+              <tr>
+                  <th>Index</th>
+                  <th>班號</th>
+                  <th>座號</th>
+                  <th>姓名</th>
+                  <th>性別</th>
+                  <th>聯絡狀態</th>
+                  <th>手機</th>
+                  <th>電郵</th>
+                  <th>地址</th>
+                  <th>公司</th>
+                  <th>職稱</th>
+                  <th>家中電話</th>
+                  <th>臉書帳號</th>
+                  <th>Line帳號</th>
+                  <th>Command</th>
+              </tr>
+              <tr ng-repeat="x in list | filter:search">
+                  <td>{{ $index + 1 }}</td>
+                  <td>{{ x.ClassId }}</td>
+                  <td>{{ x.SeatNumber }}</td>
+                  <td>{{ x.Name }}</td>
+                  <td>{{ x.Gender }}</td>
+                  <td>{{ x.Status }}</td>
+                  <td>{{ x.CellPhone }}</td>
+                  <td>{{ x.Email }}</td>
+                  <td>{{ x.HomeAddress }}</td>
+                  <td>{{ x.Company }}</td>
+                  <td>{{ x.Position }}</td>
+                  <td>{{ x.HomePhone }}</td>
+                  <td>{{ x.FaceBookAccount }}</td>
+                  <td>{{ x.LineAccount }}</td>
+              </tr>
+       
+        </table>
+    </div>
+</body>
+</html>
+<script>
 
+    var app = angular.module('mainapp', []);
+
+    app.controller('serviceCtrl', function ($scope, $http) {
+        $http.get("/api/classmates/618")
+        .error(function(error) {
+            alert(error);
+        })
+        .success(function(response)
+        {
+            $scope.list = response;
+            $scope.myVar = false;
+            $scope.toggle = function () {
+                $scope.myVar = !$scope.myVar;
+            };
+
+        }
+        )
+    });
+
+</script>
