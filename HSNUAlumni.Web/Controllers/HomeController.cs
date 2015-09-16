@@ -10,7 +10,15 @@ namespace HSNUAlumni.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("Classmate"); 
+            }
+            else
+            {
+                return View();
+            }
+             
         }
 
         public ActionResult About()
