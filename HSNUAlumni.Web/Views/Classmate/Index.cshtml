@@ -2,19 +2,38 @@
  
 <html>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/angular.min.js"></script>
+<script src="~/Scripts/angular-route.min.js"></script>
+<script src="~/Scripts/angular-ui/ui-bootstrap.min.js"></script>
+<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
 <body>
     <div  class="container" ng-app="mainapp" ng-controller="serviceCtrl">
-
-        <form>
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
-                    <input type="text" class="form-control" placeholder="Search" ng-model="search">
+    <br/>
+    <form>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="container-fluid">
+                    <div class="row">
+                        選擇班號:
+                        <select ng-model="classDropdown" class="control-label">
+                            <option value="618">618</option>
+                            <option value="619">619</option>
+                            <option value="620">620</option>
+                            <option value="621">621</option>
+                        </select>
+                        <i class="glyphicon glyphicon-search"></i>
+                        <input type="text" placeholder="Search" ng-model="search">
+                    </div>
                 </div>
             </div>
-        </form>
-        
+        </div>
+    </form>
+
+
+      
+     
        <table class="table table-bordered table-striped">
          
               <tr>
@@ -22,6 +41,7 @@
                   <th>班號</th>
                   <th>座號</th>
                   <th>姓名</th>
+                  <th>英文名</th>
                   <th>性別</th>
                   <th>聯絡狀態</th>
                   <th>手機</th>
@@ -32,13 +52,15 @@
                   <th>家中電話</th>
                   <th>臉書帳號</th>
                   <th>Line帳號</th>
+                  <th>備註</th>
                   <th>Command</th>
               </tr>
-              <tr ng-repeat="x in list | filter:search">
+              <tr ng-repeat="x in list | filter:search" >
                   <td>{{ $index + 1 }}</td>
                   <td>{{ x.ClassId }}</td>
                   <td>{{ x.SeatNumber }}</td>
                   <td>{{ x.Name }}</td>
+                  <td>{{ x.EnglishName }}</td>
                   <td>{{ x.Gender }}</td>
                   <td>{{ x.Status }}</td>
                   <td>{{ x.CellPhone }}</td>
@@ -49,31 +71,82 @@
                   <td>{{ x.HomePhone }}</td>
                   <td>{{ x.FaceBookAccount }}</td>
                   <td>{{ x.LineAccount }}</td>
+                  <td>{{ x.Notes }}</td>
+                  <td> <button ng-click="setSelected(x)" class="btn btn-sm"> Edit </button> </td>
               </tr>
-       
         </table>
+
+        <!-- The actual modal template, just a bit o bootstrap -->
+        <script type="text/ng-template" id="modal.html">
+            <div class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Contact</h4>
+                        </div>
+                        <div class="modal-body">
+                            Name : <input type="text" ng-model="Name" />  
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" ng-click="close('Yes')" class="btn btn-primary" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
     </div>
+
+  
+
 </body>
 </html>
+
+
+
 <script>
 
-    var app = angular.module('mainapp', []);
+    var app = angular.module('mainapp', ['angularModalService']) 
 
-    app.controller('serviceCtrl', function ($scope, $http) {
-        $http.get("/api/classmates/618")
-        .error(function(error) {
+    app.controller('serviceCtrl', function ($scope, $http, ModalService) {
+        $scope.$watch('classDropdown', function () {
+            $http.get("/api/classmates/" + $scope.classDropdown)
+        .error(function (error) {
             alert(error);
         })
-        .success(function(response)
-        {
+        .success(function (response) {
             $scope.list = response;
             $scope.myVar = false;
-            $scope.toggle = function () {
-                $scope.myVar = !$scope.myVar;
+            $scope.itemSelected = null;
+            $scope.setSelected = function (itemSelected) {
+                $scope.itemSelected = itemSelected;
+                ModalService.showModal({
+                    templateUrl: 'modal.html',
+                    controller: 'ModalController' 
+                   
+                }).then(function (modal) {
+                    modal.element.modal();
+                    //modal.close.then(function (result) {
+                    //    $scope.message = "You said " + result;
+                    //});
+                });
             };
-
         }
         )
+        }); 
+        
+    });
+
+    app.service('data', function () { return 'test'; }).controller('ModalController', function ($scope, data) {
+        
+        $scope.Name = data;
+
+        //$scope.close = function (result) {
+        //    close(result, 500); // close, but give 500ms for bootstrap to animate
+        //};
+
     });
 
 </script>

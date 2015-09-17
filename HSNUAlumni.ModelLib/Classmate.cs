@@ -29,6 +29,8 @@ namespace HSNUAlumni.ModelLib
 
         public string Name { get; set; }
 
+        public string EnglishName { get; set; }
+
         public bool Gender { get; set; }
 
         public string Status { get; set; }
