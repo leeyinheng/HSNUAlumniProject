@@ -31,6 +31,9 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpPost]
         public void AddOrUpdateClassmate(Classmate entity)
         {
+            entity.PartitionKey = entity.ClassId;
+            entity.RowKey = entity.Name; 
+
             op.AddorUpdateEntity(entity); 
         }
 
