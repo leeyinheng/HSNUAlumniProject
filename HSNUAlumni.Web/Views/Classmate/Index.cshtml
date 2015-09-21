@@ -241,8 +241,21 @@
                                         Upload Photo:
                                     </td>
                                     <td>
-                                        <input type="file" id="file" name="file" accept="image/*" />
-                                        <button ng-click="add()">Upload Photo</button>
+                                        <form name="form1" method="post" enctype="multipart/form-data" action="../api/classmate/uploadphoto">
+                                            <fieldset>
+                                                <div>
+                                                   <input name="caption" type="text" value="{{data.Name}}" ng-show="false" />
+                                                </div>
+                                                <div>
+                                                    <input name="file" type="file" id="file" accept="image/*"/>
+                                                </div>
+                                                <div>
+                                                    <input type="submit" value="Submit" />
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                        @*<input type="file" id="file" name="file" accept="image/*" />
+                                        <button ng-click="add()">Upload Photo</button>*@
                                     </td>
                                 </tr>
 
@@ -363,11 +376,11 @@
             r = new FileReader();
             r.onloadend = function (e) {
                 var data = e.target.result;
-
-                console.log(data);
+                               
                 var fd = new FormData();
-                fd.append("uploadedFile", data);
 
+                fd.append("uploadedFile", data);
+               
                 //send you binary data via $http or $resource or do anything else with it
                 $http
                 .post("api/classmate/uploadphoto", fd, {

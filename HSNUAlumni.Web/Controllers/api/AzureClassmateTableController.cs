@@ -8,7 +8,8 @@ using HSNUAlumni.ModelLib;
 using HSNUAlumni.DALLib;
 using System.Web;
 using System.Threading.Tasks;
-using System.Net.Http.Formatting;
+using System.IO;
+using System.Text;
 
 namespace HSNUAlumni.Web.Controllers.api
 {
@@ -62,30 +63,49 @@ namespace HSNUAlumni.Web.Controllers.api
 
         [Route("api/classmate/uploadphoto")]
         [HttpPost]
-        public async Task<string> asyncUploadPhoto()
+        public async Task<string> asyncUploadPhoto(HttpRequestMessage uploadedFile)
         {
 
-           
-            return "no file"; 
-
-            //if (!uploadedFile.Content.IsMimeMultipartContent()) return "no file";
+            if (!uploadedFile.Content.IsMimeMultipartContent()) return "no file";
                                 
 
-            //string filename = String.Format("{0:yyyyMMddHHmm}", DateTime.Now) + ".jpg";
+            string filename = String.Format("{0:yyyyMMddHHmm}", DateTime.Now) + ".jpg";
 
-            //var filePath = HttpContext.Current.Server.MapPath("~/Image/");
+            var filePath = HttpContext.Current.Server.MapPath("~/Image/");
 
-            //var streamProvider = new MultipartFormDataStreamProvider(filePath);
+            var streamProvider = new MultipartFormDataStreamProvider(filePath);
 
-            //await uploadedFile.Content.ReadAsMultipartAsync(streamProvider);
+            await uploadedFile.Content.ReadAsMultipartAsync(streamProvider);
 
-            //foreach (var file in streamProvider.FileData)
+            // var bianrystring = streamProvider.FormData[0];
+
+            //   MemoryStream mStrm = new MemoryStream(Encoding.UTF8.GetBytes(bianrystring));
+
+            //  using (FileStream file = new FileStream(filePath + filename, FileMode.Create, FileAccess.Write))
             //{
-            //    Console.WriteLine(file.Headers.ContentDisposition.FileName);
-            //    System.IO.File.Move(file.LocalFileName, filePath); 
+            //    mStrm.WriteTo(file);
             //}
 
-            //return filename;
+            foreach (var key in streamProvider.FormData.AllKeys)
+            {
+                foreach (var val in streamProvider.FormData.GetValues(key))
+                {
+                    Console.WriteLine(string.Format("{0}: {1}\n", key, val));
+                }
+            }
+
+            foreach (var file in streamProvider.FileData)
+            {
+                Console.WriteLine(file.Headers.ContentDisposition.FileName);
+                //using (FileStream filestr = new FileStream(filePath + filename, FileMode.Create, FileAccess.Write))
+                //{
+                //    await file.CopyToAsync(filestr);
+                //}
+
+                  System.IO.File.Move(file.LocalFileName, filePath + filename); 
+            }
+
+            return filename;
 
         }
     }
