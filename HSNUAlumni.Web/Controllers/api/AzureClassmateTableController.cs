@@ -21,7 +21,14 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpGet]
         public IEnumerable<Classmate> GetClassmateList(string classId)
         {
-            return op.GetEntityListByPartiontionKey(classId); 
+            var list =   op.GetEntityListByPartiontionKey(classId).ToList();
+
+            foreach(var item in list)
+            {
+                item.PhotoId = string.IsNullOrEmpty(item.PhotoId) ? "profile.png" : item.PhotoId; 
+            }
+
+            return list; 
         }
 
         [Route("api/classmate/{classId}/{name}")]
@@ -67,8 +74,7 @@ namespace HSNUAlumni.Web.Controllers.api
         {
 
             if (!uploadedFile.Content.IsMimeMultipartContent()) return "no file";
-                                
-
+     
             string filename = String.Format("{0:yyyyMMddHHmm}", DateTime.Now) + ".jpg";
 
             var filePath = HttpContext.Current.Server.MapPath("~/Image/");
@@ -77,32 +83,11 @@ namespace HSNUAlumni.Web.Controllers.api
 
             await uploadedFile.Content.ReadAsMultipartAsync(streamProvider);
 
-            // var bianrystring = streamProvider.FormData[0];
-
-            //   MemoryStream mStrm = new MemoryStream(Encoding.UTF8.GetBytes(bianrystring));
-
-            //  using (FileStream file = new FileStream(filePath + filename, FileMode.Create, FileAccess.Write))
-            //{
-            //    mStrm.WriteTo(file);
-            //}
-
-            foreach (var key in streamProvider.FormData.AllKeys)
-            {
-                foreach (var val in streamProvider.FormData.GetValues(key))
-                {
-                    Console.WriteLine(string.Format("{0}: {1}\n", key, val));
-                }
-            }
-
             foreach (var file in streamProvider.FileData)
             {
                 Console.WriteLine(file.Headers.ContentDisposition.FileName);
-                //using (FileStream filestr = new FileStream(filePath + filename, FileMode.Create, FileAccess.Write))
-                //{
-                //    await file.CopyToAsync(filestr);
-                //}
 
-                  System.IO.File.Move(file.LocalFileName, filePath + filename); 
+                System.IO.File.Move(file.LocalFileName, filePath + filename); 
             }
 
             return filename;

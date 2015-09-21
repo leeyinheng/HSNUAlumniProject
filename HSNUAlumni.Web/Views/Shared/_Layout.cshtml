@@ -20,11 +20,11 @@
                 @Html.ActionLink("師大附中 校友通訊 App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                @*<ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>*@
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Import", "Index", "Import")</li>
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
@@ -34,6 +34,7 @@
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - HSNU Alumni Contacts App</p>
+            <p> Please email to 618 Henry Lee (<a href="mailto:leeyinheng@gmail.com">leeyinheng@gmail.com</a>) for questions or suggestions</p>
         </footer>
     </div>
 

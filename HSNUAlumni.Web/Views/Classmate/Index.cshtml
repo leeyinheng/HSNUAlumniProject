@@ -1,11 +1,17 @@
 ﻿<!DOCTYPE html>
- 
+<style>
+    .selected {
+        background-color: pink;
+    }
+
+</style> 
 <html>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/angular.min.js"></script>
 <script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+
 
 <body>
     <div  class="container" ng-app="mainapp" ng-controller="serviceCtrl">
@@ -30,10 +36,11 @@
         </div>
     </form>
         
-       <table class="table table-bordered table-striped">
+       <table class="table table-bordered table-condensed">
          
               <tr>
-                  <th>Index</th>
+                  <th>序號</th>
+                  <th>照片</th>
                   <th>班號</th>
                   <th>座號</th>
                   <th>姓名</th>
@@ -49,15 +56,16 @@
                   <th>臉書帳號</th>
                   <th>Line帳號</th>
                   <th>備註</th>
-                  <th>Command</th>
+                  <th>編輯</th>
               </tr>
-              <tr ng-repeat="x in list | filter:search" >
+              <tr ng-repeat="x in list | filter:search" ng-class="{selected: x.Status === '已歿'}">
                   <td>{{ $index + 1 }}</td>
+                  <td><img ng-src="../Image/{{x.PhotoId}}" alt="Photo" width="50" height="50" /></td>
                   <td>{{ x.ClassId }}</td>
                   <td>{{ x.SeatNumber }}</td>
                   <td>{{ x.Name }}</td>
                   <td>{{ x.EnglishName }}</td>
-                  <td>{{ x.Gender }}</td>
+                  <td><img ng-src="../Image/{{x.Gender == true?'male.png':'female.png'}}" alt="Gender" width="50" height="50" /></td>
                   <td>{{ x.Status }}</td>
                   <td>{{ x.CellPhone }}</td>
                   <td>{{ x.Email }}</td>
@@ -78,14 +86,34 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Contact</h4>
+                            <button type="button" class="close" ng-click="close('No')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title">Contact</h3>
+                            <div class="modal-sm">
+                                <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="button" ng-click="close(data)" class="btn btn-primary" data-dismiss="modal">Save</button>
+                            </div>
                         </div>
                         <div class="modal-body">
                             <table class="table table-bordered table-responsive">
+                               
+                                <tr>
+                                    <td colspan="2">
+                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" />
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td>
-                                        Class:
+                                        上傳照片:
+                                    </td>
+                                    <td>
+                                        <input type="file" id="file" name="file" accept="image/*" />
+                                        <button ng-click="add()">Upload Photo</button> <label>Please limit to less 500k size</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        班號:
                                     </td>
                                     <td>
                                         {{data.ClassId}}
@@ -94,7 +122,7 @@
 
                                 <tr>
                                     <td>
-                                        Name:
+                                        姓名:
                                     </td>
                                     <td>
                                         {{data.Name}}
@@ -103,7 +131,7 @@
 
                                 <tr>
                                     <td>
-                                        SeatNumber:
+                                        座號:
                                     </td>
                                     <td>
                                         <input type="number" ng-model="data.SeatNumber" /> 
@@ -112,7 +140,7 @@
 
                                 <tr>
                                     <td>
-                                        EnglishName:
+                                        英文名:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.EnglishName" />
@@ -121,34 +149,56 @@
 
                                 <tr>
                                     <td>
-                                        Gender:
+                                        性別:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.Gender" />
+                                              <table>
+                                                  <tr>
+                                                      <td>
+                                                          <label>
+                                                              <input type="radio" name="genderm" ng-value="true" ng-model="data.Gender">
+                                                              <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
+                                                          </label>
+                                                      </td>
+                                                      <td>
+                                                          <label>
+                                                              <input type="radio" name="genderf" ng-value="false" ng-model="data.Gender">
+                                                              <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
+                                                          </label>
+                                                      </td>
+                                                  </tr>
+
+                                              </table>                                      
+                       
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>
-                                        Status:
+                                        聯絡狀態:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.Status" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        Birthday:
-                                    </td>
-                                    <td>
-                                        <input type="date" ng-model="data.Birthday"/> 
+                                        <select name="singleSelect" id="singleSelect" ng-model="data.Status">
+                                            <option value="">---Please select---</option> <!-- not selected / blank option -->
+                                            <option value="保持聯絡" style="color:blue">保持聯絡</option> <!-- interpolation -->
+                                            <option value="失聯" style="color:slategray">失聯</option>
+                                            <option value="已歿" style="color:red">已歿</option>
+                                        </select>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>
-                                        CellPhone:
+                                        生日:
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="data.Birthday"/> 
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        手機:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.CellPhone" />
@@ -157,7 +207,7 @@
 
                                 <tr>
                                     <td>
-                                        Email:
+                                        電子郵件:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.Email" ng-required="true"/> 
@@ -166,7 +216,7 @@
 
                                 <tr>
                                     <td>
-                                        HomeAddress:
+                                        住家地址:
                                     </td>
                                     <td>
                                         <textarea type="text" ng-model="data.HomeAddress" class="form-control" />
@@ -175,7 +225,7 @@
 
                                 <tr>
                                     <td>
-                                        HomePhone:
+                                        住家電話:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.HomePhone" /> 
@@ -184,7 +234,7 @@
 
                                 <tr>
                                     <td>
-                                        Company:
+                                        公司名:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.Company" />
@@ -193,7 +243,7 @@
 
                                 <tr>
                                     <td>
-                                        Position:
+                                        職稱:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.Position" /> 
@@ -202,7 +252,7 @@
 
                                 <tr>
                                     <td>
-                                        OfficeAddrss:
+                                        辦公室地址:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.OfficeAddrss" /> 
@@ -211,7 +261,7 @@
 
                                 <tr>
                                     <td>
-                                        FaceBookAccount:
+                                        臉書帳號:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.FaceBookAccount" /> 
@@ -220,7 +270,7 @@
 
                                 <tr>
                                     <td>
-                                        LineAccount:
+                                        Line帳號:
                                     </td>
                                     <td>
                                         <input type="text" ng-model="data.LineAccount" />
@@ -229,35 +279,13 @@
 
                                 <tr>
                                     <td>
-                                        Notes:
+                                        備註:
                                     </td>
                                     <td>
                                         <textarea ng-model="data.Notes" class="form-control" />
                                     </td>
                                 </tr>
 
-                                <tr>
-                                    <td>
-                                        Upload Photo:
-                                    </td>
-                                    <td>
-                                        <form name="form1" method="post" enctype="multipart/form-data" action="../api/classmate/uploadphoto">
-                                            <fieldset>
-                                                <div>
-                                                   <input name="caption" type="text" value="{{data.Name}}" ng-show="false" />
-                                                </div>
-                                                <div>
-                                                    <input name="file" type="file" id="file" accept="image/*"/>
-                                                </div>
-                                                <div>
-                                                    <input type="submit" value="Submit" />
-                                                </div>
-                                            </fieldset>
-                                        </form>
-                                        @*<input type="file" id="file" name="file" accept="image/*" />
-                                        <button ng-click="add()">Upload Photo</button>*@
-                                    </td>
-                                </tr>
 
                             </table>
                          
@@ -312,12 +340,13 @@
         ModifiedDate: ''
     });
 
-    app.controller('serviceCtrl', function ($scope, $http, ModalService,data) {
+    app.controller('serviceCtrl', function ($rootScope, $scope, $http, ModalService, data) {
+
         $scope.$watch('classDropdown', function () {
 
             selectedclassId = $scope.classDropdown;
 
-            $http.get("/api/classmates/" + $scope.classDropdown)
+        $http.get("/api/classmates/" + $scope.classDropdown)
         .error(function (error) {
             alert(error);
         })
@@ -363,47 +392,55 @@
             };
         }
         )
-        }); 
+        });
+
+        var refreshListener = $rootScope.$on('refresh', function () {
+
+            selectedclassId = $scope.classDropdown;
+
+            $http.get("/api/classmates/" + $scope.classDropdown)
+            .error(function (error) {
+                alert(error);
+            })
+            .success(function (response) {
+                  $scope.list = response;
+            }
+            )
+
+        });
+
+        $scope.$on('$destroy', refreshListener);
         
     });
 
-    app.controller('ModalController', function ($scope, $http, data) {
+    app.controller('ModalController', function ($rootScope, $scope, $http, data) {
        
         $scope.data = data;
 
         $scope.add = function () {
             var f = document.getElementById('file').files[0];
-            r = new FileReader();
-            r.onloadend = function (e) {
-                var data = e.target.result;
-                               
-                var fd = new FormData();
 
-                fd.append("uploadedFile", data);
-               
-                //send you binary data via $http or $resource or do anything else with it
-                $http
-                .post("api/classmate/uploadphoto", fd, {
-                    headers:{
-                        'Content-Type':undefined
-                    },
-                    transformRequest:angular.identity
-                })
-                .error(function (error) {
-                    alert(error);
-                })
-                .success(function (response) {
-                    alert(response);
-                    data.PhotoId = response;
-                    
-                }); 
-            }
-            r.readAsBinaryString(f);
+            var fd = new FormData();
+
+            fd.append("uploadedFile", f);
+
+            $http
+             .post("../api/classmate/uploadphoto", fd, {
+                 headers: {
+                     'Content-Type': undefined
+                 },
+                 transformRequest: angular.identity
+             })
+             .error(function (error) {
+                 alert(error);
+             })
+             .success(function (response) {
+                 data.PhotoId = response;
+             });
         }
 
         $scope.close = function (result) {
             // close(result, 500); // close, but give 500ms for bootstrap to animate
-            alert(selectedclassId);
             if (result != null && result != 'No') {
 
                 $http.post("/api/classmate/AddorUpdate", result)
@@ -412,13 +449,16 @@
                 })
                 .success(function (response) {
                     alert("Data is Updated.");
-                    location.reload();
+                    $rootScope.$broadcast('refresh');
+                    //$scope.$emit('refresh', { message: 'test' });
                  });
 
 
             }
            
         };
+
+        
 
     });
   

@@ -1,0 +1,45 @@
+﻿<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Import data from Excel";
+}
+
+<h2>Import contacts from excel</h2>
+
+<h1 style="color:blue"> @ViewBag.Message </h1>
+
+<p></p>
+<form action="" method="post" enctype="multipart/form-data">
+
+    <table class="table table-striped">
+        <tr>
+            <td>
+               <label> 1. Please download the template excel sheet and then fill in data of ALL contacts of your class.</label> 
+            </td>
+        </tr>
+        <tr>
+            <td>
+               <label> 2. Pick the upload file in your local drive.</label>
+            </td>       
+        </tr>
+        <tr>
+            <td>
+               <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label style="color:red">3. Please notice: Importing process will wipe out all old classmates records and then insert the updated records in the file. Please make sure all classmate data are completed in the excel sheet</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" name="Import" value="Import" />
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+
+
+

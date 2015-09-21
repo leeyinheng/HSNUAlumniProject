@@ -7,6 +7,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure;
 using HSNUAlumni.ModelLib;
+using System.IO;
+using Excel;
+using System.Data;
 
 namespace HSNUAlumni.DALLib
 {
@@ -63,8 +66,38 @@ namespace HSNUAlumni.DALLib
             return list; 
         }
 
+        public async Task<string> ImportData(string filepath)
+        {
+            try
+            {
+                FileStream stream = File.Open(filepath, FileMode.Open, FileAccess.Read);
 
+                //1. Reading from a OpenXml Excel file (2007 format; *.xlsx)
+                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
 
+                //2. DataSet - Create column names from first row
+                excelReader.IsFirstRowAsColumnNames = true;
+                DataSet result = excelReader.AsDataSet();
+
+                //3. Data Reader methods
+                while (excelReader.Read())
+                {
+                    //excelReader.GetInt32(0);
+                }
+
+                //4. Free resources (IExcelDataReader is IDisposable)
+                excelReader.Close();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+                      
+            return "OK"; 
+
+        }
+        
 
         #region private functions 
 
