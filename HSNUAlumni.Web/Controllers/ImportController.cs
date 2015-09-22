@@ -12,7 +12,14 @@ namespace HSNUAlumni.Web.Controllers
         // GET: Import
         public ActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("Home");
+            }
         }
 
 
@@ -21,26 +28,29 @@ namespace HSNUAlumni.Web.Controllers
         {
             string path = string.Empty; 
 
-            if (file.ContentLength > 0)
+            if (file != null && file.ContentLength > 0)
             {
                 var fileName = Path.GetFileName(file.FileName);
                 path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
                 file.SaveAs(path);
+
+                var op = new HSNUAlumni.DALLib.ImportClassmatesFromFile();
+
+                op.ImportData(path, this.User.Identity.Name);
+
+                return View(model: "Completed!");
+            }
+            else
+            {
+                return View(model: "No File Selected!"); 
+
             }
 
-            var op = new HSNUAlumni.DALLib.ImportClassmatesFromFile();
-
-            op.ImportData(path, this.User.Identity.Name); 
-
-            return View(model: "Completed!");
+           
 
 
         }
 
-        public ActionResult Process()
-        {
-
-            return View(); 
-        }
+         
     }
 }

@@ -27,6 +27,28 @@
                             <option value="619">619</option>
                             <option value="620">620</option>
                             <option value="621">621</option>
+                            <option value="622">622</option>
+                            <option value="623">623</option>
+                            <option value="624">624</option>
+                            <option value="625">625</option>
+                            <option value="626">626</option>
+                            <option value="627">627</option>
+                            <option value="628">628</option>
+                            <option value="629">629</option>
+                            <option value="630">630</option>
+                            <option value="631">631</option>
+                            <option value="632">632</option>
+                            <option value="633">633</option>
+                            <option value="634">634</option>
+                            <option value="635">635</option>
+                            <option value="636">636</option>
+                            <option value="637">637</option>
+                            <option value="638">638</option>
+                            <option value="639">639</option>
+                            <option value="640">640</option>
+                            <option value="641">641</option>
+                            <option value="642">642</option>
+                            <option value="643">643</option>
                         </select>
                         <i class="glyphicon glyphicon-search"></i>
                         <input type="text" placeholder="Search" ng-model="search">
@@ -36,7 +58,7 @@
         </div>
     </form>
         
-       <table class="table table-bordered table-condensed">
+       <table class="table table-bordered table-condensed table-hover">
          
               <tr>
                   <th>序號</th>
@@ -285,8 +307,22 @@
                                         <textarea ng-model="data.Notes" class="form-control" />
                                     </td>
                                 </tr>
-
-
+                                <tr>
+                                    <td>
+                                        Modified By:
+                                    </td>
+                                    <td>
+                                        {{data.ModifiedUser}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Modified Date:
+                                    </td>
+                                    <td>
+                                        {{data.ModifiedDate}}
+                                    </td>
+                                </tr>
                             </table>
                          
                         </div>
@@ -417,15 +453,21 @@
        
         $scope.data = data;
 
+        
+
         $scope.add = function () {
             var f = document.getElementById('file').files[0];
+
+            var fileId = data.ClassId + data.Name;
 
             var fd = new FormData();
 
             fd.append("uploadedFile", f);
+ 
+            $('#file').val('');
 
             $http
-             .post("../api/classmate/uploadphoto", fd, {
+             .post("../api/classmate/uploadphoto?fileId=" + fileId, fd, {
                  headers: {
                      'Content-Type': undefined
                  },
@@ -436,7 +478,7 @@
              })
              .success(function (response) {
                  data.PhotoId = response;
-                 f = null; 
+                 
              });
         }
 

@@ -48,6 +48,10 @@ namespace HSNUAlumni.Web.Controllers.api
 
                 entity.RowKey = entity.Name;
 
+                entity.ModifiedDate = DateTime.Now.ToShortDateString();
+
+                entity.ModifiedUser = User.Identity.Name; 
+
                 op.AddorUpdateEntity(entity);
 
             }
@@ -58,6 +62,13 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpPost]
         public void AddOrUpdateClassmate(List<Classmate> list)
         {
+            foreach(var item in list)
+            {
+                item.ModifiedUser = User.Identity.Name;
+
+                item.ModifiedDate = DateTime.Now.ToShortDateString(); 
+            }
+
             op.AddorUpdateEntityList(list);
         }
 
@@ -70,25 +81,45 @@ namespace HSNUAlumni.Web.Controllers.api
 
         [Route("api/classmate/uploadphoto")]
         [HttpPost]
-        public async Task<string> asyncUploadPhoto(HttpRequestMessage uploadedFile)
+        public async Task<string> asyncUploadPhoto(HttpRequestMessage uploadedFile, string fileId)
         {
-
+            
             if (!uploadedFile.Content.IsMimeMultipartContent()) return "no file";
-     
-            string filename = String.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + ".jpg";
 
+            //string filename = String.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + ".jpg";
+
+            string filename = fileId + String.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + ".jpg"; 
+            
             var filePath = HttpContext.Current.Server.MapPath("~/Image/");
 
             var streamProvider = new MultipartFormDataStreamProvider(filePath);
 
             await uploadedFile.Content.ReadAsMultipartAsync(streamProvider);
 
-            foreach (var file in streamProvider.FileData)
+            try
             {
-                Console.WriteLine(file.Headers.ContentDisposition.FileName);
+                foreach (var file in streamProvider.FileData)
+                {
+                    Console.WriteLine(file.Headers.ContentDisposition.FileName);
 
-                System.IO.File.Move(file.LocalFileName, filePath + filename); 
+                    if (System.IO.File.Exists(filePath + filename))
+                    {
+                        System.IO.File.Copy(file.LocalFileName, filePath + filename, true);
+
+                        System.IO.File.Delete(file.LocalFileName); 
+                    }
+                    else
+                    {
+                        System.IO.File.Move(file.LocalFileName, filePath + filename);
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+          
 
             return filename;
 

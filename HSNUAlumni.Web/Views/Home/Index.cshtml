@@ -1,92 +1,13 @@
 ﻿<!DOCTYPE html>
-<style>
-    table, th, td {
-        border: 1px solid grey;
-        border-collapse: collapse;
-        padding: 5px;
-    }
-
-        table tr:nth-child(odd) {
-            background-color: #f1f1f1;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #ffffff;
-        }
-</style>
+ 
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
 <html>
-<script src="~/Scripts/angular.min.js"></script>
+ 
 <body>
-   
-    @*<div ng-app="">
-
-        <p>Input something in the input box:</p>
-         
-        <p>Name: <input type="text" ng-model="name"></p>
-        <p ng-bind="name"></p>
-        <h1>hi {{name}}</h1>
-
-    </div>*@
-    @*<div ng-app="myapp" ng-controller="myctrl">
-        {{firstname}}
-    </div>*@
-
-    <div ng-app="myapp" ng-controller="serviceCtrl">
-
-        <button ng-click="toggle()">Toggle</button>
-        
-        <p ng-hide="myVar"><input type="text" ng-model="test"></p>
-        
-        <table>
-            <tr ng-repeat="x in list">
-                <td>{{ $index + 1 }}</td>
-                <td>{{ x.ClassId }}</td>
-                <td>{{ x.Name }}</td>
-            </tr>
-        </table>
-
-    </div>
-
-  
-
+    <img src="~/Image/schoollogo.jpg" alt="logo"/> 
+    <p></p>
+   <label> Welcome to HSNU Alumni Contacts App !</label>
+    <p></p>
+   <label> 歡迎來到 師大附中校友通訊錄! 請先註冊或登錄</label>
 </body>
 </html>
-<script>
-
-    var person = { firstname: 'test', lastname: 'lastname' };
-    var person1 = { firstname: 'henry', lastname: 'lastname' };
-    var person2 = { firstname: 'lee', lastname: 'lastname' };
-    var person3 = { firstname: 'pig', lastname: 'lastname' };
-
-    var list = [person, person1, person2, person3]; 
-
-    var app = angular.module('myapp', []);
-
-    app.controller('serviceCtrl', function ($scope, $http) {
-        $http.get("/api/classmates/618")
-        .error(function(error) {
-            alert(error); 
-        })
-        .success(function(response)
-        {
-            $scope.list = response;
-            $scope.myVar = false;
-            $scope.toggle = function () {
-                $scope.myVar = !$scope.myVar;
-            }; 
-            
-        }
-        )
-    }); 
-
-
-
-    app.controller('myctrl', function ($scope) {
-        $scope.firstname = person.firstname;
-        $scope.lastname = person.lastname;
-        $scope.list = list; 
-    });
-
-
-
-</script>

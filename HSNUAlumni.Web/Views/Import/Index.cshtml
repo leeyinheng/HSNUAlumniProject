@@ -1,13 +1,11 @@
-﻿@Model string; 
-
+﻿ 
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Import data from Excel";
 }
 
-<h2>Import contacts from excel</h2>
+<h2 class="alert alert-success">@Model</h2>
 
-<h1 style="color:blue"> @Model</h1>
 
 <p></p>
 <form action="" method="post" enctype="multipart/form-data">
@@ -16,11 +14,19 @@
         <tr>
             <td>
                <label> 1. Please download the template excel sheet and then fill in data of ALL contacts of your class.</label> 
+               <label> 以班級為單位 請先下載預設模板, 將同學通信資料依照內含的解說 copy 進去</label>
+             </td>
+        </tr>
+
+        <tr>
+            <td>
+                <a href="~/contactsTemplate.xlsx">Template File (模板檔案)</a>
             </td>
         </tr>
         <tr>
             <td>
-               <label> 2. Pick the upload file in your local drive.</label>
+               <label> 2. After filling in the excel sheet, pick the upload file from your local drive.</label>
+               <label> 將資料填完後 存入 然後由此選取檔案</label>
             </td>       
         </tr>
         <tr>
@@ -30,12 +36,16 @@
         </tr>
         <tr>
             <td>
-                <label style="color:red">3. Please notice: Importing process will wipe out all old classmates records and then insert the updated records in the file. Please make sure all classmate data are completed in the excel sheet</label>
+                <label style="color:red">3. Please notice: Importing process will wipe out all old classmates records and then insert the updated records in the file. Please make sure all classmates data are completed in the excel sheet</label>
+                <label style="color:red">請注意!!</label> <label>資料上傳過程會先將舊班級通訊錄刪除, 請先確認通訊錄已包含全班同學</label>
             </td>
         </tr>
         <tr>
             <td>
-                <input type="submit" name="Import" value="Import" />
+                <label>按以下鍵上傳通訊錄</label>
+                <button type="submit" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload File
+                </button>               
             </td>
         </tr>
     </table>

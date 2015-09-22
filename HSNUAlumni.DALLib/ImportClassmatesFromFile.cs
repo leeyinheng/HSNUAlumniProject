@@ -99,7 +99,6 @@ namespace HSNUAlumni.DALLib
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
 
