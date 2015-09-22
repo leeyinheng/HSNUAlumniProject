@@ -75,7 +75,7 @@ namespace HSNUAlumni.Web.Controllers.api
 
             if (!uploadedFile.Content.IsMimeMultipartContent()) return "no file";
      
-            string filename = String.Format("{0:yyyyMMddHHmm}", DateTime.Now) + ".jpg";
+            string filename = String.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + ".jpg";
 
             var filePath = HttpContext.Current.Server.MapPath("~/Image/");
 

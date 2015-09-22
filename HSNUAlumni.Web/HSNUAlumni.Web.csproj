@@ -1145,6 +1145,7 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Classmate\Index.cshtml" />
     <Content Include="Views\Import\Index.cshtml" />
+    <Content Include="Views\Import\Process.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

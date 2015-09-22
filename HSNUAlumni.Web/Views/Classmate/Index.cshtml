@@ -98,7 +98,7 @@
                                
                                 <tr>
                                     <td colspan="2">
-                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" />
+                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200"/>
                                     </td>
                                 </tr>
 
@@ -436,6 +436,7 @@
              })
              .success(function (response) {
                  data.PhotoId = response;
+                 f = null; 
              });
         }
 

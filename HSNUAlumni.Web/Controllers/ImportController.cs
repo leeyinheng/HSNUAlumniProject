@@ -28,19 +28,17 @@ namespace HSNUAlumni.Web.Controllers
                 file.SaveAs(path);
             }
 
-            var op = new HSNUAlumni.DALLib.CloudTableOperation<HSNUAlumni.ModelLib.Classmate>("classmate");
+            var op = new HSNUAlumni.DALLib.ImportClassmatesFromFile();
 
-              op.ImportData(path).ContinueWith(o=>
-              {
-                  if (o.IsFaulted)
-                  {
-                      throw new Exception(o.Exception.Message); 
-                  }
+            op.ImportData(path, this.User.Identity.Name); 
 
-                  ViewBag.Message = "Importing process is completed !";
+            return View(model: "Completed!");
 
-                  return View(); 
-              }); 
+
+        }
+
+        public ActionResult Process()
+        {
 
             return View(); 
         }

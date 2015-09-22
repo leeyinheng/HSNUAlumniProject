@@ -1,11 +1,13 @@
-﻿<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+﻿@Model string; 
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 @{
     ViewBag.Title = "Import data from Excel";
 }
 
 <h2>Import contacts from excel</h2>
 
-<h1 style="color:blue"> @ViewBag.Message </h1>
+<h1 style="color:blue"> @Model</h1>
 
 <p></p>
 <form action="" method="post" enctype="multipart/form-data">
