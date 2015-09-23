@@ -26,25 +26,34 @@ namespace HSNUAlumni.Web.Controllers
         [HttpPost]
         public ActionResult Index(HttpPostedFileBase file)
         {
-            string path = string.Empty; 
+            string path = string.Empty;
 
-            if (file != null && file.ContentLength > 0)
+            try
             {
-                var fileName = Path.GetFileName(file.FileName);
-                path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                file.SaveAs(path);
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    file.SaveAs(path);
 
-                var op = new HSNUAlumni.DALLib.ImportClassmatesFromFile();
+                    var op = new HSNUAlumni.DALLib.ImportClassmatesFromFile();
 
-                op.ImportData(path, this.User.Identity.Name);
+                    op.ImportData(path, this.User.Identity.Name);
 
-                return View(model: "Completed!");
+                    return View(model: "Completed!");
+                }
+                else
+                {
+                    return View(model: "No File Selected!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return View(model: "No File Selected!"); 
 
+                return View(model: "Error: " + ex.Message); 
             }
+
+          
 
            
 

@@ -54,9 +54,9 @@ namespace HSNUAlumni.Web
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "773104939484696",
+               appSecret: "c58bc4b1917a714d4caaa1f15a3b7f24");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

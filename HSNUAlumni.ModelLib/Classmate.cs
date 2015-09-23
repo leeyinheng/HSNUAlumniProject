@@ -25,13 +25,13 @@ namespace HSNUAlumni.ModelLib
 
         public string ClassId { get; set; }
 
-        public int SeatNumber { get; set; }
+        public string SeatNumber { get; set; }
 
         public string Name { get; set; }
 
         public string EnglishName { get; set; }
 
-        public bool Gender { get; set; }
+        public string Gender { get; set; }
 
         public string Status { get; set; }
 

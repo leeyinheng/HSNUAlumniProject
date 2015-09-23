@@ -1,7 +1,11 @@
 ﻿<!DOCTYPE html>
 <style>
-    .selected {
+    .passaway {
         background-color: pink;
+    }
+
+    .lost{
+        background-color: lightgreen;
     }
 
 </style> 
@@ -58,7 +62,7 @@
         </div>
     </form>
         
-       <table class="table table-bordered table-condensed table-hover">
+       <table class="table table-bordered table-hover">
          
               <tr>
                   <th>序號</th>
@@ -80,17 +84,17 @@
                   <th>備註</th>
                   <th>編輯</th>
               </tr>
-              <tr ng-repeat="x in list | filter:search" ng-class="{selected: x.Status === '已歿'}">
+              <tr ng-repeat="x in list | filter:search" ng-class="{ 'lost': x.Status === '失聯' , 'passaway': x.Status === '已歿'}">
                   <td>{{ $index + 1 }}</td>
                   <td><img ng-src="../Image/{{x.PhotoId}}" alt="Photo" width="50" height="50" /></td>
                   <td>{{ x.ClassId }}</td>
                   <td>{{ x.SeatNumber }}</td>
                   <td>{{ x.Name }}</td>
                   <td>{{ x.EnglishName }}</td>
-                  <td><img ng-src="../Image/{{x.Gender == true?'male.png':'female.png'}}" alt="Gender" width="50" height="50" /></td>
+                  <td><img ng-src="../Image/{{x.Gender == 'M'?'male.png':'female.png'}}" alt="Gender" width="50" height="50" /></td>
                   <td>{{ x.Status }}</td>
                   <td>{{ x.CellPhone }}</td>
-                  <td>{{ x.Email }}</td>
+                  <td><a href="mailto:{{ x.Email }}">{{ x.Email }}</a></td>
                   <td>{{ x.HomeAddress }}</td>
                   <td>{{ x.Company }}</td>
                   <td>{{ x.Position }}</td>
@@ -156,7 +160,7 @@
                                         座號:
                                     </td>
                                     <td>
-                                        <input type="number" ng-model="data.SeatNumber" /> 
+                                        <input type="text" ng-model="data.SeatNumber" /> 
                                     </td>
                                 </tr>
 
@@ -178,13 +182,13 @@
                                                   <tr>
                                                       <td>
                                                           <label>
-                                                              <input type="radio" name="genderm" ng-value="true" ng-model="data.Gender">
+                                                              <input type="radio" name="genderm" value="M" ng-model="data.Gender">
                                                               <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
                                                           </label>
                                                       </td>
                                                       <td>
                                                           <label>
-                                                              <input type="radio" name="genderf" ng-value="false" ng-model="data.Gender">
+                                                              <input type="radio" name="genderf" value="F" ng-model="data.Gender">
                                                               <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
                                                           </label>
                                                       </td>

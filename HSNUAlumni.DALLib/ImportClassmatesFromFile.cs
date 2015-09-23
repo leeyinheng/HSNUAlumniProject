@@ -16,8 +16,8 @@ namespace HSNUAlumni.DALLib
 
         public void ImportData(string filepath, string user = "system")
         {
-            try
-            {
+            //try
+            //{
                 FileStream stream = File.Open(filepath, FileMode.Open, FileAccess.Read);
 
                 //1. Reading from a OpenXml Excel file (2007 format; *.xlsx)
@@ -36,6 +36,8 @@ namespace HSNUAlumni.DALLib
                 //3. Data Reader methods
                 foreach (DataRow row in table.Rows)
                 {
+                    if (row[columns["ClassId"]].ToString() != string.Empty && row[columns["Name"]].ToString() != string.Empty)
+                    {
                     var item = new Classmate();
 
                     item.PartitionKey = row[columns["ClassId"]].ToString();
@@ -58,7 +60,7 @@ namespace HSNUAlumni.DALLib
 
                     item.FaceBookAccount = row[columns["FaceBookAccount"]].ToString();
 
-                    item.Gender = Convert.ToBoolean(row[columns["Gender"]].ToString());
+                    item.Gender = row[columns["Gender"]].ToString();
 
                     item.HomeAddress = row[columns["HomeAddress"]].ToString();
 
@@ -78,11 +80,14 @@ namespace HSNUAlumni.DALLib
 
                     item.Position = row[columns["Position"]].ToString();
 
-                    item.SeatNumber = Convert.ToInt16(row[columns["SeatNumber"]].ToString());
+                    item.SeatNumber = row[columns["SeatNumber"]].ToString();
 
-                    item.Status = row[columns["Status"]].ToString();
+                    item.Status = row[columns["Status"]].ToString().Trim();
 
                     list.Add(item);
+                                      
+                    }
+                    
                 }
 
                 //4. Free resources (IExcelDataReader is IDisposable)
@@ -96,11 +101,11 @@ namespace HSNUAlumni.DALLib
                     op.AddorUpdateEntityList(list);
                 }
                
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
 
 
         }
