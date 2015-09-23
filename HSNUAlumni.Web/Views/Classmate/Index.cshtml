@@ -68,11 +68,11 @@
                   <th>序號</th>
                   <th>照片</th>
                   <th>班號</th>
-                  <th>座號</th>
-                  <th>姓名</th>
-                  <th>英文名</th>
-                  <th>性別</th>
-                  <th>聯絡狀態</th>
+                  <th><a href="" ng-click="reverse=!reverse;order('SeatNumber',reverse)">座號</a></th>
+                  <th><a href="" ng-click="reverse=!reverse;order('Name',reverse)">姓名</a></th>
+                  <th><a href="" ng-click="reverse=!reverse;order('EnglishName',reverse)">英文名</a></th>
+                  <th><a href="" ng-click="reverse=!reverse;order('Gender',reverse)">性別</a></th>
+                  <th><a href="" ng-click="reverse=!reverse;order('Status',reverse)">聯絡狀態</a></th>
                   <th>手機</th>
                   <th>電郵</th>
                   <th>地址</th>
@@ -84,7 +84,7 @@
                   <th>備註</th>
                   <th>編輯</th>
               </tr>
-              <tr ng-repeat="x in list | filter:search" ng-class="{ 'lost': x.Status === '失聯' , 'passaway': x.Status === '已歿'}">
+              <tr ng-repeat="x in list | filter:search" ng-class="{ 'lost': x.Status === '失聯' , 'passaway': x.Status === '已歿'}" ng-dblclick="popUpItem(x)">
                   <td>{{ $index + 1 }}</td>
                   <td><img ng-src="../Image/{{x.PhotoId}}" alt="Photo" width="50" height="50" /></td>
                   <td>{{ x.ClassId }}</td>
@@ -380,7 +380,7 @@
         ModifiedDate: ''
     });
 
-    app.controller('serviceCtrl', function ($rootScope, $scope, $http, ModalService, data) {
+    app.controller('serviceCtrl', function ($rootScope, $scope, $http,$filter, ModalService, data) {
 
         $scope.$watch('classDropdown', function () {
 
@@ -391,7 +391,9 @@
             alert(error);
         })
         .success(function (response) {
-            
+
+            var orderBy = $filter('orderBy');
+
             $scope.list = response;
             $scope.myVar = false;
             $scope.itemSelected = null;
@@ -430,6 +432,16 @@
                     });
                 });
             };
+
+            $scope.order = function (predicate, reverse) {
+                $scope.list = orderBy($scope.list, predicate, reverse);
+            };
+
+            $scope.list = orderBy($scope.list, 'SeatNumber', false);
+
+            $scope.popUpItem = function (item) {
+                alert(item.Name); 
+            }; 
         }
         )
         });
