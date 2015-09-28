@@ -56,6 +56,8 @@
                         </select>
                         <i class="glyphicon glyphicon-search"></i>
                         <input type="text" placeholder="Search" ng-model="search">
+                        <i class="glyphicon glyphicon-comment"></i>
+                        <span>首先點選班號 等待資料輸出 | 可輸入任何字串搜尋同學 | 雙點擊滑鼠於同學欄位上看通訊內容 | 點擊 HyperLink欄位排序</span>
                     </div>
                 </div>
             </div>
@@ -82,6 +84,7 @@
                   <th>臉書帳號</th>
                   <th>Line帳號</th>
                   <th>備註</th>
+                  <th>詳細</th>
                   <th>編輯</th>
               </tr>
               <tr ng-repeat="x in list | filter:search" ng-class="{ 'lost': x.Status === '失聯' , 'passaway': x.Status === '已歿'}" ng-dblclick="popUpItem(x)">
@@ -102,9 +105,161 @@
                   <td>{{ x.FaceBookAccount }}</td>
                   <td>{{ x.LineAccount }}</td>
                   <td>{{ x.Notes }}</td>
+                  <td> <button ng-click="popUpItem(x)" class="btn btn-sm"> View </button> </td>
                   <td> <button ng-click="setSelected(x)" class="btn btn-sm"> Edit </button> </td>
               </tr>
         </table>
+
+        
+        <script type="text/ng-template" id="popup.html">
+            <div class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                         <div class="modal-body">
+                             <table class="table">
+                                 <tr>
+                                    <td colspan="4">
+                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        姓名:
+                                    </td>
+                                    <td>
+                                        {{data.Name}}
+                                    </td>
+                                    <td>
+                                        英文名:
+                                    </td>
+                                    <td>
+                                        {{data.EnglishName}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        性別:
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="genderm" value="M" ng-model="data.Gender">
+                                                        <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="genderf" value="F" ng-model="data.Gender">
+                                                        <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
+                                                    </label>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+
+                                    </td>
+                                    <td>
+                                        聯絡狀態:
+                                    </td>
+                                    <td>
+                                        {{data.Status}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        生日:
+                                    </td>
+                                    <td>
+                                        {{data.Birthday}}
+                                    </td>
+                                    <td>
+                                        手機:
+                                    </td>
+                                    <td>
+                                        {{data.CellPhone}}
+                                    </td>
+                                </tr>
+
+                                
+                                <tr>
+                                    <td>
+                                        電子郵件:
+                                    </td>
+                                    <td>
+                                        {{data.Email}} 
+                                    </td>
+                                    <td>
+                                        住家電話:
+                                    </td>
+                                    <td>
+                                        {{data.HomePhone}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td >
+                                        住家地址:
+                                    </td>
+                                    <td colspan="4">
+                                       {{data.HomeAddress}}  
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        公司名:
+                                    </td>
+                                    <td>
+                                        {{data.Company}}
+                                    </td>
+                                    <td>
+                                        職稱:
+                                    </td>
+                                    <td>
+                                        {{data.Position}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        辦公室地址:
+                                    </td>
+                                    <td colspan="3">
+                                        {{data.OfficeAddrss}} 
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        臉書帳號:
+                                    </td>
+                                    <td>
+                                        {{data.FaceBookAccount}}
+                                    </td>
+                                    <td>
+                                        Line帳號:
+                                    </td>
+                                    <td>
+                                        {{data.LineAccount}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        備註:
+                                    </td>
+                                <td colspan="3">
+                                        <textarea ng-model="data.Notes" class="form-control" readonly="readonly" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </script> 
 
         <!-- The actual modal template, just a bit o bootstrap -->
         <script type="text/ng-template" id="modal.html">
@@ -439,8 +594,36 @@
 
             $scope.list = orderBy($scope.list, 'SeatNumber', false);
 
-            $scope.popUpItem = function (item) {
-                alert(item.Name); 
+            $scope.popUpItem = function (itemSelected) {
+                data.Name = itemSelected.Name;
+                data.Birthday = itemSelected.Birthday;
+                data.CellPhone = itemSelected.CellPhone;
+                data.ClassId = itemSelected.ClassId;
+                data.Company = itemSelected.Company;
+                data.Email = itemSelected.Email;
+                data.EnglishName = itemSelected.EnglishName;
+                data.FaceBookAccount = itemSelected.FaceBookAccount;
+                data.Gender = itemSelected.Gender;
+                data.HomeAddress = itemSelected.HomeAddress;
+                data.HomePhone = itemSelected.HomePhone;
+                data.LineAccount = itemSelected.LineAccount;
+                data.ModifiedDate = itemSelected.ModifiedDate;
+                data.ModifiedUser = itemSelected.ModifiedUser;
+                data.Notes = itemSelected.Notes;
+                data.OfficeAddrss = itemSelected.OfficeAddrss;
+                data.OfficePhone = itemSelected.OfficePhone;
+                data.PhotoId = itemSelected.PhotoId;
+                data.Position = itemSelected.Position;
+                data.SeatNumber = itemSelected.SeatNumber;
+                data.Status = itemSelected.Status;
+
+
+                ModalService.showModal({
+                    templateUrl: 'popup.html',
+                    controller: 'PopupController'
+                }).then(function (modal) {
+                    modal.element.modal();
+                });
             }; 
         }
         )
@@ -520,6 +703,11 @@
         
 
     });
+
+
+    app.controller('PopupController', function ($scope, data) {
+        $scope.data = data;
+    }); 
   
 
 </script>
