@@ -4,11 +4,10 @@
         background-color: pink;
     }
 
-    .lost{
+    .lost {
         background-color: lightgreen;
     }
-
-</style> 
+</style>
 <html>
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
@@ -18,109 +17,77 @@
 
 
 <body>
-    <div  class="container" ng-app="mainapp" ng-controller="serviceCtrl">
-    <br/>
-    <form>
-        <div class="form-group">
-            <div class="input-group">
-                <div class="container-fluid">
-                    <div class="row">
-                        選擇班號:
-                        <select ng-model="classDropdown">
-                            <option value="618">618</option>
-                            <option value="619">619</option>
-                            <option value="620">620</option>
-                            <option value="621">621</option>
-                            <option value="622">622</option>
-                            <option value="623">623</option>
-                            <option value="624">624</option>
-                            <option value="625">625</option>
-                            <option value="626">626</option>
-                            <option value="627">627</option>
-                            <option value="628">628</option>
-                            <option value="629">629</option>
-                            <option value="630">630</option>
-                            <option value="631">631</option>
-                            <option value="632">632</option>
-                            <option value="633">633</option>
-                            <option value="634">634</option>
-                            <option value="635">635</option>
-                            <option value="636">636</option>
-                            <option value="637">637</option>
-                            <option value="638">638</option>
-                            <option value="639">639</option>
-                            <option value="640">640</option>
-                            <option value="641">641</option>
-                            <option value="642">642</option>
-                            <option value="643">643</option>
-                        </select>
-                        <i class="glyphicon glyphicon-search"></i>
-                        <input type="text" placeholder="Search" ng-model="search">
-                        <i class="glyphicon glyphicon-comment"></i>
-                        <span>首先點選班號 等待資料輸出 | 可輸入任何字串搜尋同學 | 雙點擊滑鼠於同學欄位上看通訊內容 | 點擊 HyperLink欄位排序</span>
+    <div class="container" ng-app="mainapp" ng-controller="serviceCtrl">
+        <br />
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <input type="button" ng-click="addNew()" value="新增" />
+                            <i class="glyphicon glyphicon-search"></i>
+                            <input type="text" placeholder="Search" ng-model="search">
+                            <i class="glyphicon glyphicon-comment"></i>
+                            <span>可輸入任何字串搜尋同學 | 雙點擊滑鼠於同學欄位上看通訊內容 | 點擊 HyperLink欄位排序</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
         
-       <table class="table table-bordered table-hover">
-         
-              <tr>
-                  <th>序號</th>
-                  <th>照片</th>
-                  <th>班號</th>
-                  <th><a href="" ng-click="reverse=!reverse;order('SeatNumber',reverse)">座號</a></th>
-                  <th><a href="" ng-click="reverse=!reverse;order('Name',reverse)">姓名</a></th>
-                  <th><a href="" ng-click="reverse=!reverse;order('EnglishName',reverse)">英文名</a></th>
-                  <th><a href="" ng-click="reverse=!reverse;order('Gender',reverse)">性別</a></th>
-                  <th><a href="" ng-click="reverse=!reverse;order('Status',reverse)">聯絡狀態</a></th>
-                  <th>手機</th>
-                  <th>電郵</th>
-                  <th>地址</th>
-                  <th>公司</th>
-                  <th>職稱</th>
-                  <th>家中電話</th>
-                  <th>臉書帳號</th>
-                  <th>Line帳號</th>
-                  <th>備註</th>
-                  <th><a href="" ng-click="reverse=!reverse;order('ModifiedDate',reverse)">更新日期</a></th>
-                  <th>詳細</th>
-                  <th>編輯</th>
-              </tr>
-              <tr ng-repeat="x in list | filter:search" ng-class="{ 'lost': x.Status === '失聯' , 'passaway': x.Status === '已歿'}" ng-dblclick="popUpItem(x)">
-                  <td>{{ $index + 1 }}</td>
-                  <td><img ng-src="../Image/{{x.PhotoId}}" alt="Photo" width="50" height="50" /></td>
-                  <td>{{ x.ClassId }}</td>
-                  <td>{{ x.SeatNumber }}</td>
-                  <td>{{ x.Name }}</td>
-                  <td>{{ x.EnglishName }}</td>
-                  <td><img ng-src="../Image/{{x.Gender == 'M'?'male.png':'female.png'}}" alt="Gender" width="50" height="50" /></td>
-                  <td>{{ x.Status }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.CellPhone }}</td>
-                  <td ng-hide={{x.Hide}}><a href="mailto:{{ x.Email }}">{{ x.Email }}</a></td>
-                  <td ng-hide={{x.Hide}}>{{ x.HomeAddress }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.Company }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.Position }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.HomePhone }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.FaceBookAccount }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.LineAccount }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.Notes }}</td>
-                  <td ng-hide={{x.Hide}}>{{ x.ModifiedDate}}</td>
-                  <td ng-hide={{x.Hide}}> <button ng-click="popUpItem(x)" class="btn btn-sm"> View </button> </td>
-                  <td ng-hide={{x.Hide}}> <button ng-click="setSelected(x)" class="btn btn-sm"> Edit </button> </td>
-                  <td ng-show={{x.Hide}} colspan="12" style="color:lightgrey"> <span>設為隱藏模式 (若要開放 請通知 leeyinheng@gmail.com)</span></td>
-              </tr>
+        <table class="table table-bordered table-hover">
+
+            <tr>
+                <th>序號</th>
+                <th>照片</th>
+                <th><a href="" ng-click="reverse=!reverse;order('Name',reverse)">姓名</a></th>
+                <th><a href="" ng-click="reverse=!reverse;order('EnglishName',reverse)">英文名</a></th>
+                <th><a href="" ng-click="reverse=!reverse;order('Gender',reverse)">性別</a></th>
+                <th><a href="" ng-click="reverse=!reverse;order('Status',reverse)">聯絡狀態</a></th>
+                <th>手機</th>
+                <th>電郵</th>
+                <th>地址</th>
+                <th>公司</th>
+                <th>職稱</th>
+                <th>家中電話</th>
+                <th>臉書帳號</th>
+                <th>Line帳號</th>
+                <th>備註</th>
+                <th><a href="" ng-click="reverse=!reverse;order('ModifiedDate',reverse)">更新日期</a></th>
+                <th>詳細</th>
+                <th>編輯</th>
+            </tr>
+            <tr ng-repeat="x in list | filter:search" ng-class="{ 'lost': x.Status === '失聯' , 'passaway': x.Status === '已歿'}" ng-dblclick="popUpItem(x)">
+                <td>{{ $index + 1 }}</td>
+                <td><img ng-src="../Image/{{x.PhotoId}}" alt="Photo" width="50" height="50" /></td>
+                <td>{{ x.Name }}</td>
+                <td>{{ x.EnglishName }}</td>
+                <td><img ng-src="../Image/{{x.Gender == 'M'?'male.png':'female.png'}}" alt="Gender" width="50" height="50" /></td>
+                <td>{{ x.Status }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.CellPhone }}</td>
+                <td ng-hide={{x.Hide}}><a href="mailto:{{ x.Email }}">{{ x.Email }}</a></td>
+                <td ng-hide={{x.Hide}}>{{ x.HomeAddress }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.Company }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.Position }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.HomePhone }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.FaceBookAccount }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.LineAccount }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.Notes }}</td>
+                <td ng-hide={{x.Hide}}>{{ x.ModifiedDate}}</td>
+                <td ng-hide={{x.Hide}}> <button ng-click="popUpItem(x)" class="btn btn-sm"> View </button> </td>
+                <td ng-hide={{x.Hide}}> <button ng-click="setSelected(x)" class="btn btn-sm"> Edit </button> </td>
+                <td ng-show={{x.Hide}} colspan="12" style="color:lightgrey"> <span>設為隱藏模式 (若要開放 請通知 leeyinheng@gmail.com)</span></td>
+            </tr>
         </table>
 
-        
+
         <script type="text/ng-template" id="popup.html">
             <div class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                         <div class="modal-body">
-                             <table class="table">
-                                 <tr>
+                        <div class="modal-body">
+                            <table class="table">
+                                <tr>
                                     <td colspan="4">
                                         <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" />
                                     </td>
@@ -186,13 +153,13 @@
                                     </td>
                                 </tr>
 
-                                
+
                                 <tr>
                                     <td>
                                         電子郵件:
                                     </td>
                                     <td>
-                                        {{data.Email}} 
+                                        {{data.Email}}
                                     </td>
                                     <td>
                                         住家電話:
@@ -203,11 +170,11 @@
                                 </tr>
 
                                 <tr>
-                                    <td >
+                                    <td>
                                         住家地址:
                                     </td>
                                     <td colspan="4">
-                                       {{data.HomeAddress}}  
+                                        {{data.HomeAddress}}
                                     </td>
                                 </tr>
 
@@ -230,7 +197,7 @@
                                         辦公室地址:
                                     </td>
                                     <td colspan="3">
-                                        {{data.OfficeAddrss}} 
+                                        {{data.OfficeAddrss}}
                                     </td>
                                 </tr>
 
@@ -249,20 +216,20 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td >
+                                    <td>
                                         備註:
                                     </td>
-                                <td colspan="3">
+                                    <td colspan="3">
                                         <textarea ng-model="data.Notes" class="form-control" readonly="readonly" />
                                     </td>
-                                </tr>    
+                                </tr>
                             </table>
 
                         </div>
-                     </div>
+                    </div>
                 </div>
             </div>
-        </script> 
+        </script>
 
         <!-- The actual modal template, just a bit o bootstrap -->
         <script type="text/ng-template" id="modal.html">
@@ -279,10 +246,10 @@
                         </div>
                         <div class="modal-body">
                             <table class="table table-bordered table-responsive">
-                               
+
                                 <tr>
                                     <td colspan="2">
-                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200"/>
+                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" />
                                     </td>
                                 </tr>
 
@@ -295,33 +262,23 @@
                                         <button ng-click="add()">Upload Photo</button> <label>Please limit to less 500k size</label>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        班號:
-                                    </td>
-                                    <td>
-                                        {{data.ClassId}}
-                                    </td>
-                                </tr>
-
-                                <tr>
+                               <tr>
                                     <td>
                                         姓名:
                                     </td>
                                     <td>
-                                        {{data.Name}}
+                                        <form name="nameForm">
+                                            <input type="text" name="userName" ng-model="data.Name" required />
+                                            <div role="alert">
+                                                <span style="color:red" class="error" ng-show="nameForm.userName.$error.required">
+                                                    Required!
+                                                </span>
+                                            </div>
+                                        </form>
+                                        
                                     </td>
                                 </tr>
-
-                                <tr>
-                                    <td>
-                                        座號:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.SeatNumber" /> 
-                                    </td>
-                                </tr>
-
+                                                             
                                 <tr>
                                     <td>
                                         英文名:
@@ -336,24 +293,24 @@
                                         性別:
                                     </td>
                                     <td>
-                                              <table>
-                                                  <tr>
-                                                      <td>
-                                                          <label>
-                                                              <input type="radio" name="genderm" value="M" ng-model="data.Gender">
-                                                              <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
-                                                          </label>
-                                                      </td>
-                                                      <td>
-                                                          <label>
-                                                              <input type="radio" name="genderf" value="F" ng-model="data.Gender">
-                                                              <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
-                                                          </label>
-                                                      </td>
-                                                  </tr>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="genderm" value="M" ng-model="data.Gender">
+                                                        <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="radio" name="genderf" value="F" ng-model="data.Gender">
+                                                        <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
+                                                    </label>
+                                                </td>
+                                            </tr>
 
-                                              </table>                                      
-                       
+                                        </table>
+
                                     </td>
                                 </tr>
 
@@ -376,7 +333,7 @@
                                         生日:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.Birthday"/> 
+                                        <input type="text" ng-model="data.Birthday" />
                                     </td>
                                 </tr>
 
@@ -394,7 +351,7 @@
                                         電子郵件:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.Email" ng-required="true"/> 
+                                        <input type="text" ng-model="data.Email" ng-required="true" />
                                     </td>
                                 </tr>
 
@@ -412,7 +369,7 @@
                                         住家電話:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.HomePhone" /> 
+                                        <input type="text" ng-model="data.HomePhone" />
                                     </td>
                                 </tr>
 
@@ -430,7 +387,7 @@
                                         職稱:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.Position" /> 
+                                        <input type="text" ng-model="data.Position" />
                                     </td>
                                 </tr>
 
@@ -439,7 +396,7 @@
                                         辦公室地址:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.OfficeAddrss" /> 
+                                        <input type="text" ng-model="data.OfficeAddrss" />
                                     </td>
                                 </tr>
 
@@ -448,7 +405,7 @@
                                         臉書帳號:
                                     </td>
                                     <td>
-                                        <input type="text" ng-model="data.FaceBookAccount" /> 
+                                        <input type="text" ng-model="data.FaceBookAccount" />
                                     </td>
                                 </tr>
 
@@ -494,7 +451,7 @@
                                     </td>
                                 </tr>
                             </table>
-                         
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -507,13 +464,13 @@
 
     </div>
 
-  
+
 
 </body>
 </html>
 
 
- 
+
 
 
 <script>
@@ -524,7 +481,7 @@
 
     app.value("data", {
         ClassId: '100',
-        SeatNumber:'', 
+        SeatNumber:'',
         Name: 'Test',
         EnglishName: '',
         Gender: '',
@@ -541,18 +498,17 @@
         Position: '',
         HomeAddress: '',
         OfficeAddrss: '',
-        PhotoId: '',
+        PhotoId: 'profile.png',
         ModifiedUser: '',
         ModifiedDate: ''
     });
 
     app.controller('serviceCtrl', function ($rootScope, $scope, $http,$filter, ModalService, data) {
+              
 
-        $scope.$watch('classDropdown', function () {
-
-            selectedclassId = $scope.classDropdown;
-
-        $http.get("/api/classmates/" + $scope.classDropdown)
+        angular.element(document).ready(function () {
+  
+        $http.get("/api/classmates/93LandEconomics")
         .error(function (error) {
             alert(error);
         })
@@ -586,7 +542,7 @@
                 data.Position = itemSelected.Position;
                 data.SeatNumber = itemSelected.SeatNumber;
                 data.Status = itemSelected.Status;
-                
+
                 ModalService.showModal({
                     templateUrl: 'modal.html',
                     controller: 'ModalController'
@@ -594,7 +550,43 @@
                     modal.element.modal();
                     modal.close.then(function (result) {
                        // $scope.message = "You said " + result;
-                        alert('modal.close'); 
+                        alert('modal.close');
+                    });
+                });
+            };
+
+
+            $scope.addNew = function () {
+                data.Name = '';
+                data.Birthday = '';
+                data.CellPhone = '';
+                data.ClassId = '93LandEconomics';
+                data.Company = '';
+                data.Email = '';
+                data.EnglishName = '';
+                data.FaceBookAccount = '';
+                data.Gender = 'M';
+                data.HomeAddress = '';
+                data.HomePhone = '';
+                data.LineAccount = '';
+                data.ModifiedDate = '';
+                data.ModifiedUser = '';
+                data.Notes = '';
+                data.OfficeAddrss = '';
+                data.OfficePhone = '';
+                data.PhotoId = 'profile.png';
+                data.Position = '';
+                data.SeatNumber = '';
+                data.Status = '保持聯絡';
+
+                ModalService.showModal({
+                    templateUrl: 'modal.html',
+                    controller: 'ModalController'
+                }).then(function (modal) {
+                    modal.element.modal();
+                    modal.close.then(function (result) {
+                        // $scope.message = "You said " + result;
+                        alert('modal.close');
                     });
                 });
             };
@@ -635,7 +627,7 @@
                 }).then(function (modal) {
                     modal.element.modal();
                 });
-            }; 
+            };
         }
         )
         });
@@ -644,7 +636,7 @@
 
             selectedclassId = $scope.classDropdown;
 
-            $http.get("/api/classmates/" + $scope.classDropdown)
+            $http.get("/api/classmates/93LandEconomics")
             .error(function (error) {
                 alert(error);
             })
@@ -656,14 +648,14 @@
         });
 
         $scope.$on('$destroy', refreshListener);
-        
+
     });
 
     app.controller('ModalController', function ($rootScope, $scope, $http, data) {
-       
+
         $scope.data = data;
 
-        
+
 
         $scope.add = function () {
             var f = document.getElementById('file').files[0];
@@ -673,7 +665,7 @@
             var fd = new FormData();
 
             fd.append("uploadedFile", f);
- 
+
             $('#file').val('');
 
             $http
@@ -688,13 +680,20 @@
              })
              .success(function (response) {
                  data.PhotoId = response;
-                 
+
              });
         }
 
         $scope.close = function (result) {
             // close(result, 500); // close, but give 500ms for bootstrap to animate
-            if (result != null && result != 'No') {
+
+            if (result != null && result.Name == '')
+            {
+                alert('Name cannot be empty! New Contact will not be saved');
+                return; 
+            }
+
+            if (result != null && result != 'No' ) {
 
                 $http.post("/api/classmate/AddorUpdate", result)
                 .error(function (e) {
@@ -708,17 +707,17 @@
 
 
             }
-           
+
         };
 
-        
+
 
     });
 
 
     app.controller('PopupController', function ($scope, data) {
         $scope.data = data;
-    }); 
-  
+    });
+
 
 </script>

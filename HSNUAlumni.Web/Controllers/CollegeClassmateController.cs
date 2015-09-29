@@ -6,12 +6,12 @@ using System.Web.Mvc;
 
 namespace HSNUAlumni.Web.Controllers
 {
-    public class ClassmateController : Controller
+    public class CollegeClassmateController : Controller
     {
-        // GET: Classmate
+        // GET: CollegeClassmate
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated && System.Web.Configuration.WebConfigurationManager.AppSettings["Type"] != "Land")
+            if (User.Identity.IsAuthenticated && System.Web.Configuration.WebConfigurationManager.AppSettings["Type"] == "Land")
             {
                 if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Agreement"))
                 {
@@ -20,13 +20,12 @@ namespace HSNUAlumni.Web.Controllers
                 else
                 {
                     return Redirect("Agreement");
-                }              
+                }
             }
             else
             {
-                return Redirect("Home"); 
+                return Redirect("Home");
             }
-            
         }
     }
 }

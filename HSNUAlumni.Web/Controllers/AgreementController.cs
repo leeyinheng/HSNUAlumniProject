@@ -23,23 +23,49 @@ namespace HSNUAlumni.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string[] agree)
+        public ActionResult Index(string[] agree , string[] answer)
         {
             
             if (agree != null && agree[0] == "on")
             {
-                HttpCookie cookie = new HttpCookie("Agreement");
 
-                cookie.Value = "Agreement is accepted! CreatedOn: " + DateTime.Now.ToShortDateString() + " | " + DateTime.Now.ToShortTimeString();
+                if (answer != null)
+                {
+                    if (answer[0] == "陳鳳瑤")
+                    {
+                        AssignCookie();
 
-                this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+                        return Redirect("Classmate");
+                    }
+                    else
+                    {
+                        return Redirect("Home");
+                    }
+                }
+                else
+                {
+                    AssignCookie(); 
 
-                return Redirect("Classmate");
+                    return Redirect("Classmate");
+                }
+             
             }
             else
             {
                 return Redirect("Home");
             }
+        }
+
+
+        private void AssignCookie()
+        {
+            HttpCookie cookie = new HttpCookie("Agreement");
+
+            cookie.Value = "Agreement is accepted! CreatedOn: " + DateTime.Now.ToShortDateString() + " | " + DateTime.Now.ToShortTimeString();
+
+            this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
+          
+
         }
     }
 }

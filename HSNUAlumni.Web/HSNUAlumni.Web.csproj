@@ -243,6 +243,7 @@
     <Compile Include="Controllers\AgreementController.cs" />
     <Compile Include="Controllers\api\AzureClassmateTableController.cs" />
     <Compile Include="Controllers\ClassmateController.cs" />
+    <Compile Include="Controllers\CollegeClassmateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImportController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -306,6 +307,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Image\female.png" />
     <Content Include="Image\male.png" />
+    <Content Include="Image\NCCU.png" />
     <Content Include="Image\profile.png" />
     <Content Include="Image\schoollogo.jpg" />
     <Content Include="Scripts\angular-animate.js" />
@@ -1151,6 +1153,7 @@
     <Content Include="Views\Classmate\Index.cshtml" />
     <Content Include="Views\Import\Index.cshtml" />
     <Content Include="Views\Agreement\Index.cshtml" />
+    <Content Include="Views\CollegeClassmate\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

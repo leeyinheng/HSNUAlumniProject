@@ -4,29 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HSNUAlumni.Web.Controllers
+namespace LandEconomicsAlumni.Web.Controllers
 {
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                if (System.Web.Configuration.WebConfigurationManager.AppSettings["Type"] == "Land")
-                {
-                    return Redirect("CollegeClassmate");
-                }
-                else
-                {
-                    return Redirect("Classmate");
-                }
-              
-            }
-            else
-            {
-                return View();
-            }
-             
+            return View();
         }
 
         public ActionResult About()
