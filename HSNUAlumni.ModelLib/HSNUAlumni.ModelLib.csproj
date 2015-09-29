@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agreement.cs" />
     <Compile Include="Classmate.cs" />
     <Compile Include="CustomerEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

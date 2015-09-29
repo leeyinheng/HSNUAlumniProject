@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddAgreement.cs" />
     <Compile Include="CloudTableOperation.cs" />
     <Compile Include="ImportClassmatesFromFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

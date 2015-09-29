@@ -64,6 +64,8 @@ namespace HSNUAlumni.ModelLib
         public string ModifiedUser { get; set; }
 
         public string ModifiedDate { get; set;}
+
+        public bool Hide { get; set; }
     }
 
     public enum ClassmateStatus

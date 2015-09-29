@@ -84,6 +84,7 @@
                   <th>臉書帳號</th>
                   <th>Line帳號</th>
                   <th>備註</th>
+                  <th><a href="" ng-click="reverse=!reverse;order('ModifiedDate',reverse)">更新日期</a></th>
                   <th>詳細</th>
                   <th>編輯</th>
               </tr>
@@ -96,17 +97,19 @@
                   <td>{{ x.EnglishName }}</td>
                   <td><img ng-src="../Image/{{x.Gender == 'M'?'male.png':'female.png'}}" alt="Gender" width="50" height="50" /></td>
                   <td>{{ x.Status }}</td>
-                  <td>{{ x.CellPhone }}</td>
-                  <td><a href="mailto:{{ x.Email }}">{{ x.Email }}</a></td>
-                  <td>{{ x.HomeAddress }}</td>
-                  <td>{{ x.Company }}</td>
-                  <td>{{ x.Position }}</td>
-                  <td>{{ x.HomePhone }}</td>
-                  <td>{{ x.FaceBookAccount }}</td>
-                  <td>{{ x.LineAccount }}</td>
-                  <td>{{ x.Notes }}</td>
-                  <td> <button ng-click="popUpItem(x)" class="btn btn-sm"> View </button> </td>
-                  <td> <button ng-click="setSelected(x)" class="btn btn-sm"> Edit </button> </td>
+                  <td ng-hide={{x.Hide}}>{{ x.CellPhone }}</td>
+                  <td ng-hide={{x.Hide}}><a href="mailto:{{ x.Email }}">{{ x.Email }}</a></td>
+                  <td ng-hide={{x.Hide}}>{{ x.HomeAddress }}</td>
+                  <td ng-hide={{x.Hide}}>{{ x.Company }}</td>
+                  <td ng-hide={{x.Hide}}>{{ x.Position }}</td>
+                  <td ng-hide={{x.Hide}}>{{ x.HomePhone }}</td>
+                  <td ng-hide={{x.Hide}}>{{ x.FaceBookAccount }}</td>
+                  <td ng-hide={{x.Hide}}>{{ x.LineAccount }}</td>
+                  <td ng-hide={{x.Hide}}>{{ x.Notes }}</td>
+                  <td ng-hide={{x.Hide}}>{{ x.ModifiedDate}}</td>
+                  <td ng-hide={{x.Hide}}> <button ng-click="popUpItem(x)" class="btn btn-sm"> View </button> </td>
+                  <td ng-hide={{x.Hide}}> <button ng-click="setSelected(x)" class="btn btn-sm"> Edit </button> </td>
+                  <td ng-show={{x.Hide}} colspan="12" style="color:lightgrey"> <span>設為隱藏模式 (若要開放 請通知 leeyinheng@gmail.com)</span></td>
               </tr>
         </table>
 
@@ -252,7 +255,7 @@
                                 <td colspan="3">
                                         <textarea ng-model="data.Notes" class="form-control" readonly="readonly" />
                                     </td>
-                                </tr>
+                                </tr>    
                             </table>
 
                         </div>
@@ -480,6 +483,14 @@
                                     </td>
                                     <td>
                                         {{data.ModifiedDate}}
+                                    </td>
+                                </tr>
+                                <tr style="color:red">
+                                    <td>
+                                        設為隱藏模式: (隱藏通訊資料僅保留班號姓名,一旦啟動便無人可以更改)
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" ng-model="data.Hide">
                                     </td>
                                 </tr>
                             </table>

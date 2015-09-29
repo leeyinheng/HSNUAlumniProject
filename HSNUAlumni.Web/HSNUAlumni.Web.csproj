@@ -240,6 +240,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgreementController.cs" />
     <Compile Include="Controllers\api\AzureClassmateTableController.cs" />
     <Compile Include="Controllers\ClassmateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1149,6 +1150,7 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Classmate\Index.cshtml" />
     <Content Include="Views\Import\Index.cshtml" />
+    <Content Include="Views\Agreement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
