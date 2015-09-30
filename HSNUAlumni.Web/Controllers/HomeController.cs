@@ -12,7 +12,15 @@ namespace HSNUAlumni.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("Classmate"); 
+                if (System.Web.Configuration.WebConfigurationManager.AppSettings["Type"] == "Land")
+                {
+                    return Redirect("CollegeClassmate");
+                }
+                else
+                {
+                    return Redirect("Classmate");
+                }
+              
             }
             else
             {

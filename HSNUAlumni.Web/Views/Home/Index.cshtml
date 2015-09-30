@@ -2,13 +2,32 @@
  
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
 <html>
- 
+ @{ 
+     string title = "";
+     string label = "";
+     string logo = ""; 
+
+     if (System.Web.Configuration.WebConfigurationManager.AppSettings["Type"] == "Land")
+     {
+         title = "NCCU";
+         label = "93地政系";
+         logo = "/Image/NCCU.png"; 
+
+     }
+     else
+     {
+         title = "HSNU";
+         label = "師大附中";
+         logo = "/Image/schoollogo.jpg"; 
+     }
+
+ }
 <body>
-    <img src="~/Image/schoollogo.jpg" alt="logo"/> 
+    <img src=@logo alt="logo"/> 
     <p></p>
-   <label> Welcome to HSNU Alumni Contacts App !</label>
+   <label> Welcome to @title Alumni Contacts App !</label>
     <p></p>
-   <label> 歡迎來到 師大附中校友通訊錄! 請先註冊或用FB帳號登錄</label>
+   <label> 歡迎來到 @label 校友通訊錄! 請先註冊或用FB帳號登錄</label>
     <ul class="list-unstyled">
         <li>@Html.ActionLink("註冊", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
         <li>@Html.ActionLink("登錄(可用Facebook 帳號)", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>

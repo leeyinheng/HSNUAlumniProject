@@ -11,7 +11,7 @@ namespace HSNUAlumni.Web.Controllers
         // GET: Classmate
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated && System.Web.Configuration.WebConfigurationManager.AppSettings["Type"] != "Land")
             {
                 if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Agreement"))
                 {
