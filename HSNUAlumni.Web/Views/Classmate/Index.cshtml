@@ -25,6 +25,7 @@
             <div class="input-group">
                 <div class="container-fluid">
                     <div class="row">
+                        <input type="button"  value="新增" ng-show="showbutton" />
                         選擇班號:
                         <select ng-model="classDropdown">
                             <option value="618">618</option>
@@ -548,16 +549,24 @@
 
     app.controller('serviceCtrl', function ($rootScope, $scope, $http,$filter, ModalService, data) {
 
+        $scope.showbutton = false;
+
         $scope.$watch('classDropdown', function () {
 
             selectedclassId = $scope.classDropdown;
 
+            $scope.showbutton = false;
+
         $http.get("/api/classmates/" + $scope.classDropdown)
         .error(function (error) {
+
+            $scope.showbutton = false; 
+
             alert(error);
         })
         .success(function (response) {
 
+           
             var orderBy = $filter('orderBy');
 
             $scope.list = response;

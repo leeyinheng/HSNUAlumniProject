@@ -59,7 +59,7 @@
             </tr>
             <tr ng-repeat="x in list | filter:search" ng-class="{ 'lost': x.Status === '失聯' , 'passaway': x.Status === '已歿'}" ng-dblclick="popUpItem(x)">
                 <td>{{ $index + 1 }}</td>
-                <td><img ng-src="../Image/{{x.PhotoId}}" alt="Photo" width="50" height="50" /></td>
+                <td><a href="../Image/{{x.PhotoId}}" target="_blank"><img ng-src="../Image/{{x.PhotoId}}" alt="Photo" width="50" height="50" /></a></td>
                 <td>{{ x.Name }}</td>
                 <td>{{ x.EnglishName }}</td>
                 <td><img ng-src="../Image/{{x.Gender == 'M'?'male.png':'female.png'}}" alt="Gender" width="50" height="50" /></td>
@@ -89,7 +89,7 @@
                             <table class="table">
                                 <tr>
                                     <td colspan="4">
-                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" />
+                                        <a href="../Image/{{data.PhotoId}}" target="_blank"><img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" /></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -474,6 +474,13 @@
 
 
 <script>
+
+    $(function () {
+        $('img').on('click', function () {
+            $(this).width(1000);
+        });
+    });
+
 
     var app = angular.module('mainapp', ['angularModalService'])
 

@@ -28,18 +28,10 @@ namespace HSNUAlumni.Web.Controllers
             
             if (agree != null && agree[0] == "on")
             {
-<<<<<<< HEAD
-                var operation = new HSNUAlumni.DALLib.AddAgreement();
 
-                operation.Add(new ModelLib.Agreement() { PartitionKey = User.Identity.Name, RowKey = DateTime.Now.ToLongDateString() }); 
-
-                HttpCookie cookie = new HttpCookie("Agreement");
-=======
->>>>>>> origin/master
-
-                if (answer != null)
+               if (answer != null)
                 {
-                    if (answer[0] == "陳鳳瑤")
+                    if (answer[0] == "陳奉瑤")
                     {
                         AssignCookie();
 
@@ -72,7 +64,14 @@ namespace HSNUAlumni.Web.Controllers
             cookie.Value = "Agreement is accepted! CreatedOn: " + DateTime.Now.ToShortDateString() + " | " + DateTime.Now.ToShortTimeString();
 
             this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-          
+
+
+            var operation = new HSNUAlumni.DALLib.AddAgreement();
+
+            operation.Add(new ModelLib.Agreement() { PartitionKey = User.Identity.Name, RowKey = DateTime.Now.ToLongDateString() });
+
+         
+
 
         }
     }
