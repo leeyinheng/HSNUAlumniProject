@@ -14,7 +14,14 @@ namespace HSNUAlumni.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return View();
+                if (this.ControllerContext.HttpContext.Request.Cookies.AllKeys.Contains("Agreement"))
+                {
+                    return View();
+                }
+                else
+                {
+                    return Redirect("Agreement");
+                }
             }
             else
             {

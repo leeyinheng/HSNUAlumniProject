@@ -28,6 +28,10 @@ namespace HSNUAlumni.Web.Controllers
             
             if (agree != null && agree[0] == "on")
             {
+                var operation = new HSNUAlumni.DALLib.AddAgreement();
+
+                operation.Add(new ModelLib.Agreement() { PartitionKey = User.Identity.Name, RowKey = DateTime.Now.ToLongDateString() }); 
+
                 HttpCookie cookie = new HttpCookie("Agreement");
 
                 cookie.Value = "Agreement is accepted! CreatedOn: " + DateTime.Now.ToShortDateString() + " | " + DateTime.Now.ToShortTimeString();
