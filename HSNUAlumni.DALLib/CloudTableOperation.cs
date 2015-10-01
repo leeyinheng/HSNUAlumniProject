@@ -49,8 +49,8 @@ namespace HSNUAlumni.DALLib
             vcard.Image = File.ReadAllBytes(path);
 
             var cardString = BuildVcard(vcard);
-            var inputEncoding = Encoding.Default;
-            var outputEncoding = Encoding.GetEncoding("windows-1257");
+            var inputEncoding = Encoding.UTF8;
+            var outputEncoding = Encoding.UTF8;
             var cardBytes = inputEncoding.GetBytes(cardString);
             var outputBytes = Encoding.Convert(inputEncoding, outputEncoding, cardBytes);
 
