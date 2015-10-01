@@ -124,5 +124,30 @@ namespace HSNUAlumni.Web.Controllers.api
             return filename;
 
         }
+
+        [Route("api/classmate/vcard")]
+        [HttpPost]
+        public HttpResponseMessage vcard(Classmate entity)
+        {
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            string filepath = HttpContext.Current.Server.MapPath("~/Image/" + entity.PhotoId);
+
+            var bytes = op.GenerateVcard(entity, filepath);
+
+            Stream stream = new MemoryStream(bytes); 
+            
+            response.Content = new StreamContent(stream);
+
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("content-disposition");
+               
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/x-vcard");
+
+            response.Content.Headers.ContentDisposition.FileName = "contact.vcf";
+
+            return response;
+
+
+        }
     }
 }

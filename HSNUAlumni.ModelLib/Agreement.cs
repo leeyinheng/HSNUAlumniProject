@@ -20,5 +20,7 @@ namespace HSNUAlumni.ModelLib
             this.PartitionKey = username;
             this.RowKey = DateTime.Now.ToLongDateString() + "|" + DateTime.Now.ToLongTimeString();
         }
+
+        public string ClassId { get; set; }
     }
 }

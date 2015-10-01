@@ -35,18 +35,36 @@ namespace HSNUAlumni.Web.Controllers
                     {
                         AssignCookie();
 
-                        return Redirect("Classmate");
+                        return Redirect("CollegeClassmate");
                     }
                     else
                     {
-                        return Redirect("Home");
+                        try
+                        {
+                            string classId = answer[0].Substring(0, 3);
+
+                            int id = Convert.ToInt16(classId);
+
+                            if (id >= 618 && id <= 643 && answer[0].ToLower().Contains("ilovehsnu")) 
+                            {
+                                AssignCookie(classId);
+
+                                return Redirect("Classmate");
+                            }
+                            else
+                            {
+                                return Redirect("Home");
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            return Redirect("Home");
+                        }
                     }
                 }
                 else
                 {
-                    AssignCookie(); 
-
-                    return Redirect("Classmate");
+                    return Redirect("Home");
                 }
              
             }
@@ -57,22 +75,18 @@ namespace HSNUAlumni.Web.Controllers
         }
 
 
-        private void AssignCookie()
+        private void AssignCookie(string classId = "000")
         {
             HttpCookie cookie = new HttpCookie("Agreement");
 
-            cookie.Value = "Agreement is accepted! CreatedOn: " + DateTime.Now.ToShortDateString() + " | " + DateTime.Now.ToShortTimeString();
+            cookie.Value = classId +  " | Agreement is accepted! CreatedOn: " + DateTime.Now.ToShortDateString() + " | " + DateTime.Now.ToShortTimeString();
 
             this.ControllerContext.HttpContext.Response.Cookies.Add(cookie);
-
-
+            
             var operation = new HSNUAlumni.DALLib.AddAgreement();
 
-            operation.Add(new ModelLib.Agreement() { PartitionKey = User.Identity.Name, RowKey = DateTime.Now.ToLongDateString() });
-
-         
-
-
+            operation.Add(new ModelLib.Agreement() { PartitionKey = User.Identity.Name, RowKey = DateTime.Now.ToLongDateString(), ClassId = classId });
+   
         }
     }
 }

@@ -10,6 +10,7 @@ using HSNUAlumni.ModelLib;
 using System.IO;
 using Excel;
 using System.Data;
+using System.Text;
 
 namespace HSNUAlumni.DALLib
 {
@@ -33,6 +34,55 @@ namespace HSNUAlumni.DALLib
             var newEntity =  InsertOrMergeEntityAsync(table, entity);
 
         }
+
+        public byte[] GenerateVcard(Classmate entity, string path)
+        {
+            var vcard = new VCard();
+
+            vcard.FName = entity.Name;
+            vcard.Email = entity.Email;
+            vcard.Company = entity.Company;
+            vcard.Address = entity.HomeAddress;
+            vcard.JobTitle = entity.Position;
+            vcard.Mobile = entity.CellPhone;
+            vcard.Phone = entity.HomePhone;
+            vcard.Image = File.ReadAllBytes(path);
+
+            var cardString = BuildVcard(vcard);
+            var inputEncoding = Encoding.Default;
+            var outputEncoding = Encoding.GetEncoding("windows-1257");
+            var cardBytes = inputEncoding.GetBytes(cardString);
+            var outputBytes = Encoding.Convert(inputEncoding, outputEncoding, cardBytes);
+
+            return outputBytes;
+        }
+
+
+        private string BuildVcard(VCard vCard)
+        {
+            var vCardBuilder = new StringBuilder();
+            vCardBuilder.AppendLine("BEGIN:VCARD");
+            vCardBuilder.AppendLine("VERSION:2.1");
+            vCardBuilder.AppendLine("N:" + vCard.LName + ";" + vCard.FName);
+            vCardBuilder.AppendLine("FN:" + vCard.FName + " " + vCard.LName);
+            vCardBuilder.Append("ADR;HOME;PREF:;;");
+            vCardBuilder.Append(vCard.Address + ";");
+            vCardBuilder.Append(vCard.City + ";;");
+            vCardBuilder.AppendLine(vCard.Country);
+            vCardBuilder.AppendLine("ORG:" + vCard.Company);
+            vCardBuilder.AppendLine("TITLE:" + vCard.JobTitle);
+            vCardBuilder.AppendLine("TEL;HOME;VOICE:" + vCard.Phone);
+            vCardBuilder.AppendLine("TEL;CELL;VOICE:" + vCard.Mobile);
+            vCardBuilder.AppendLine("EMAIL;PREF;INTERNET:" + vCard.Email);
+            vCardBuilder.AppendLine("PHOTO;ENCODING=BASE64;TYPE=JPEG:");
+            vCardBuilder.AppendLine(Convert.ToBase64String(vCard.Image));
+            vCardBuilder.AppendLine(string.Empty);
+            vCardBuilder.AppendLine(string.Empty);
+            vCardBuilder.AppendLine(string.Empty);
+            vCardBuilder.AppendLine("END:VCARD");
+            return vCardBuilder.ToString();
+        }
+
 
         public  void AddorUpdateEntityList(IEnumerable<T> list)
         {

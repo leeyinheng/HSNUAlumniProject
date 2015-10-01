@@ -74,4 +74,51 @@ namespace HSNUAlumni.ModelLib
         Disconnected,
         Deceased
     }
+
+    public interface IClassmate
+    {
+        string ClassId { get; set; }
+
+        string SeatNumber { get; set; }
+
+        string Name { get; set; }
+
+        string EnglishName { get; set; }
+
+        string Gender { get; set; }
+
+        string Status { get; set; }
+
+        string Birthday { get; set; }
+
+        string Notes { get; set; }
+
+        string CellPhone { get; set; }
+
+        string HomePhone { get; set; }
+
+        string OfficePhone { get; set; }
+
+        string Email { get; set; }
+
+        string FaceBookAccount { get; set; }
+
+        string LineAccount { get; set; }
+
+        string Company { get; set; }
+
+        string Position { get; set; }
+
+        string HomeAddress { get; set; }
+
+        string OfficeAddrss { get; set; }
+
+        string PhotoId { get; set; }
+
+        string ModifiedUser { get; set; }
+
+        string ModifiedDate { get; set; }
+               
+
+    }
 }

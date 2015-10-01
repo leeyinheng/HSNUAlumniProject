@@ -75,7 +75,9 @@
     <Compile Include="Agreement.cs" />
     <Compile Include="Classmate.cs" />
     <Compile Include="CustomerEntity.cs" />
+    <Compile Include="EmailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vcard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
