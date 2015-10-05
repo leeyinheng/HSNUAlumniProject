@@ -259,6 +259,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\Helper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -1130,6 +1131,27 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="UserGuide.htm" />
+    <Content Include="UserGuide_files\colorschememapping.xml" />
+    <Content Include="UserGuide_files\filelist.xml" />
+    <Content Include="UserGuide_files\image001.png" />
+    <Content Include="UserGuide_files\image002.jpg" />
+    <Content Include="UserGuide_files\image003.png" />
+    <Content Include="UserGuide_files\image004.jpg" />
+    <Content Include="UserGuide_files\image005.png" />
+    <Content Include="UserGuide_files\image006.jpg" />
+    <Content Include="UserGuide_files\image007.png" />
+    <Content Include="UserGuide_files\image008.png" />
+    <Content Include="UserGuide_files\image009.png" />
+    <Content Include="UserGuide_files\image010.jpg" />
+    <Content Include="UserGuide_files\image011.png" />
+    <Content Include="UserGuide_files\image012.png" />
+    <Content Include="vcard.htm" />
+    <Content Include="vcard_files\colorschememapping.xml" />
+    <Content Include="vcard_files\filelist.xml" />
+    <Content Include="vcard_files\image001.png" />
+    <Content Include="vcard_files\image002.png" />
+    <Content Include="vcard_files\image003.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1170,6 +1192,9 @@
     <Content Include="Views\Agreement\Index.cshtml" />
     <Content Include="Views\CollegeClassmate\Index.cshtml" />
     <Content Include="Views\Shared\_Contacts.cshtml" />
+    <Content Include="vcard.docx" />
+    <Content Include="vcard_files\themedata.thmx" />
+    <Content Include="UserGuide_files\themedata.thmx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

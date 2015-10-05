@@ -63,6 +63,7 @@ namespace HSNUAlumni.DALLib
             var vCardBuilder = new StringBuilder();
             vCardBuilder.AppendLine("BEGIN:VCARD");
             vCardBuilder.AppendLine("VERSION:2.1");
+            vCardBuilder.AppendLine("ENCODING=QUOTED-PRINTABLE;CHARSET=UTF-8");
             vCardBuilder.AppendLine("N:" + vCard.LName + ";" + vCard.FName);
             vCardBuilder.AppendLine("FN:" + vCard.FName + " " + vCard.LName);
             vCardBuilder.Append("ADR;HOME;PREF:;;");

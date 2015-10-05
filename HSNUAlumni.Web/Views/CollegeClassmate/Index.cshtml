@@ -99,6 +99,10 @@
 
 
             $scope.addNew = function () {
+
+                
+
+
                 data.Name = '';
                 data.Birthday = '';
                 data.CellPhone = '';
@@ -181,7 +185,7 @@
 
                         var data = results.data;
                              
-                        var file = new Blob([data], { type: 'text/x-vcard' });
+                        var file = new Blob([data], { type: 'text/x-vcard; charset=iso-8859-1' });
                                              
                         saveAs(file, 'contact.vcf');
 

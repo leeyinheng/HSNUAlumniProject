@@ -40,7 +40,7 @@ namespace HSNUAlumni.Web.Controllers
                 if (file != null && file.ContentLength > 0)
                 {
                     var fileName = Path.GetFileName(file.FileName);
-                    path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    path = Path.Combine(Server.MapPath("~/Content"), fileName);
                     file.SaveAs(path);
 
                     var op = new HSNUAlumni.DALLib.ImportClassmatesFromFile();

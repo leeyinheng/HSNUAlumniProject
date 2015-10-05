@@ -46,10 +46,11 @@
                         if (System.Web.Configuration.WebConfigurationManager.AppSettings["Type"] != "Land" || User.Identity.Name.StartsWith("leeyinheng"))
                         {
                             <li>@Html.ActionLink("上傳通信錄", "Index", "Import")</li>
+                            <li><a href="~/UserGuide.htm" target="_blank">快速登錄步驟</a></li>
                         }
                     }
-                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li><a href="~/vcard.htm" target="_blank">Vcard輸入Outlook設定</a></li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

@@ -10,6 +10,8 @@ using System.Web;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace HSNUAlumni.Web.Controllers.api
 {
@@ -21,6 +23,8 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpGet]
         public IEnumerable<Classmate> GetClassmateList(string classId)
         {
+            Helper.Guard.New().IsAuthentic().IsEmptyString(classId); 
+
             var list =   op.GetEntityListByPartiontionKey(classId).ToList();
 
             foreach(var item in list)
@@ -35,6 +39,8 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpGet]
         public Classmate GetClassmateEntity(string classId, string name)
         {
+            Helper.Guard.New().IsAuthentic().IsEmptyString(classId).IsEmptyString(name);
+
             return op.GetEntityByKeys(classId, name); 
         }
 
@@ -42,6 +48,8 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpPost]
         public void AddOrUpdateClassmate(Classmate entity)
         {
+            Helper.Guard.New().IsAuthentic();
+
             if (entity != null)
             {
                 entity.PartitionKey = entity.ClassId;
@@ -62,7 +70,9 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpPost]
         public void AddOrUpdateClassmate(List<Classmate> list)
         {
-            foreach(var item in list)
+            Helper.Guard.New().IsAuthentic();
+
+            foreach (var item in list)
             {
                 item.ModifiedUser = User.Identity.Name;
 
@@ -72,10 +82,47 @@ namespace HSNUAlumni.Web.Controllers.api
             op.AddorUpdateEntityList(list);
         }
 
+        [Route("api/classmate/export")]
+        [HttpPost]
+        public HttpResponseMessage ExportToExcel(List<Classmate> list)
+        {
+            Helper.Guard.New().IsAuthentic();
+
+            if (list.Count == 0) return null; 
+
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+
+            var grid = new GridView();
+            grid.DataSource = list;
+            grid.DataBind();
+                        
+            StringWriter sw = new StringWriter();
+
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+
+            grid.RenderControl(htw);
+                       
+            byte[] byteArray = Encoding.UTF8.GetBytes(sw.ToString());
+
+            Stream stream = new MemoryStream(byteArray);
+                        
+            response.Content = new StreamContent(stream);
+
+            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("content-disposition");
+
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/ms-excel");
+
+            response.Content.Headers.ContentDisposition.FileName = "contacts.xls";
+
+            return response;
+        }
+
         [Route("api/classmate/delete/{classId}/{Name}")]
         [HttpPut]
         public void DeleteClassmate(string classId, string Name)
         {
+            Helper.Guard.New().IsAuthentic().IsEmptyString(classId).IsEmptyString(Name); 
+
             op.DeleteEntityByKeys(classId,Name);
         }
 
@@ -83,7 +130,9 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpPost]
         public async Task<string> asyncUploadPhoto(HttpRequestMessage uploadedFile, string fileId)
         {
-            
+
+            Helper.Guard.New().IsAuthentic();
+
             if (!uploadedFile.Content.IsMimeMultipartContent()) return "no file";
 
             //string filename = String.Format("{0:yyyyMMddHHmmss}", DateTime.Now) + ".jpg";
@@ -129,6 +178,8 @@ namespace HSNUAlumni.Web.Controllers.api
         [HttpPost]
         public HttpResponseMessage vcard(Classmate entity)
         {
+            Helper.Guard.New().IsAuthentic();
+
             var response = new HttpResponseMessage(HttpStatusCode.OK);
 
             string filepath = HttpContext.Current.Server.MapPath("~/Image/" + entity.PhotoId);

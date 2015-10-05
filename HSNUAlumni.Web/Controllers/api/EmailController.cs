@@ -18,8 +18,8 @@ namespace HSNUAlumni.Web.Controllers.api
 
         public void Send(EmailModel value)
         {
-            
-                      
+            Helper.Guard.New().IsAuthentic();
+
             // Create the email object first, then add the properties.
             SendGridMessage emailMessage = new SendGridMessage();
             emailMessage.To = GetEmailList();  
