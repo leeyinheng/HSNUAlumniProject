@@ -128,6 +128,14 @@ namespace HSNUAlumni.DALLib
             return list; 
         }
 
+        public IEnumerable<T> GetAllContacts()
+        {
+            var list = RetrieveAllListUsingPointQuery(table);
+
+            return list; 
+          
+        }
+
        
         
 
@@ -205,6 +213,30 @@ namespace HSNUAlumni.DALLib
             while (token != null);
 
             return list; 
+        }
+
+
+        private List<T> RetrieveAllListUsingPointQuery(CloudTable table)
+        {
+            var list = new List<T>();
+            // Create the range query using the fluid API 
+            TableQuery<T> rangeQuery = new TableQuery<T>();
+
+            // Page through the results - requesting 50 results at a time from the server. 
+            TableContinuationToken token = null;
+            rangeQuery.TakeCount = 50;
+            do
+            {
+                TableQuerySegment<T> segment = table.ExecuteQuerySegmented<T>(rangeQuery, token);
+                token = segment.ContinuationToken;
+                foreach (T entity in segment)
+                {
+                    list.Add(entity);
+                }
+            }
+            while (token != null);
+
+            return list;
         }
 
         private void DeleteEntityAsync(CloudTable table, T deleteEntity)

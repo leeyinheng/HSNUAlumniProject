@@ -46,7 +46,9 @@
         ModifiedDate: ''
     });
 
-    app.controller('serviceCtrl', function ($rootScope, $scope, $http,$filter, ModalService, data) {
+    app.value("updatelist", []); 
+
+    app.controller('serviceCtrl', function ($rootScope, $scope, $http, $filter, ModalService, data) {
 
         $scope.showbutton = false;
 
@@ -257,6 +259,23 @@
         });
 
         $scope.$on('$destroy', refreshListener);
+
+        $http.get("/api/classmates/recent")
+        .success(function (response) {
+
+            updatelist = response;
+                      
+            ModalService.showModal({
+                templateUrl: 'recent.html',
+                controller: 'RecentController'
+            }).then(function (modal) {
+                modal.element.modal();
+                modal.close.then(function (result) {
+                      alert('modal.close');
+                });
+            });
+
+        }); 
         
     });
 
@@ -318,6 +337,10 @@
 
     app.controller('PopupController', function ($scope, data) {
         $scope.data = data;
+    });
+
+    app.controller('RecentController', function ($scope) {
+        $scope.list = updatelist
     }); 
   
 

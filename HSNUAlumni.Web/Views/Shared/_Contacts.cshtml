@@ -108,396 +108,431 @@
 
         <i class="glyphicon glyphicon-export"></i><input type="button" ng-click="export()" value="將本班通訊錄輸出至 Excel" />
 
-        <script type="text/ng-template" id="popup.html">
-            <div class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <table class="table">
-                                <tr>
-                                    <td colspan="4">
-                                        <a href="../Image/{{data.PhotoId}}" target="_blank"><img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" /></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        姓名:
-                                    </td>
-                                    <td>
-                                        {{data.Name}}
-                                    </td>
-                                    <td>
-                                        英文名:
-                                    </td>
-                                    <td>
-                                        {{data.EnglishName}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        性別:
-                                    </td>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <label>
-                                                        <input type="radio" name="genderm" value="M" ng-model="data.Gender">
-                                                        <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <label>
-                                                        <input type="radio" name="genderf" value="F" ng-model="data.Gender">
-                                                        <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
-                                                    </label>
-                                                </td>
-                                            </tr>
+        <div id="mapDiv" class="mapDiv" style="height:500px; height:500px; margin:0; padding:0">
 
-                                        </table>
+           
 
-                                    </td>
-                                    <td>
-                                        聯絡狀態:
-                                    </td>
-                                    <td>
-                                        {{data.Status}}
-                                    </td>
-                                </tr>
+            <script type="text/ng-template" id="popup.html">
+                <div class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <table class="table">
+                                    <tr>
+                                        <td colspan="4">
+                                            <a href="../Image/{{data.PhotoId}}" target="_blank"><img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" /></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            姓名:
+                                        </td>
+                                        <td>
+                                            {{data.Name}}
+                                        </td>
+                                        <td>
+                                            英文名:
+                                        </td>
+                                        <td>
+                                            {{data.EnglishName}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            性別:
+                                        </td>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <label>
+                                                            <input type="radio" name="genderm" value="M" ng-model="data.Gender">
+                                                            <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            <input type="radio" name="genderf" value="F" ng-model="data.Gender">
+                                                            <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
+                                                        </label>
+                                                    </td>
+                                                </tr>
 
-                                <tr>
-                                    <td>
-                                        生日:
-                                    </td>
-                                    <td>
-                                        {{data.Birthday}}
-                                    </td>
-                                    <td>
-                                        手機:
-                                    </td>
-                                    <td>
-                                        {{data.CellPhone}}
-                                    </td>
-                                </tr>
+                                            </table>
+
+                                        </td>
+                                        <td>
+                                            聯絡狀態:
+                                        </td>
+                                        <td>
+                                            {{data.Status}}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            生日:
+                                        </td>
+                                        <td>
+                                            {{data.Birthday}}
+                                        </td>
+                                        <td>
+                                            手機:
+                                        </td>
+                                        <td>
+                                            {{data.CellPhone}}
+                                        </td>
+                                    </tr>
 
 
-                                <tr>
-                                    <td>
-                                        電子郵件:
-                                    </td>
-                                    <td>
-                                        {{data.Email}}
-                                    </td>
-                                    <td>
-                                        住家電話:
-                                    </td>
-                                    <td>
-                                        {{data.HomePhone}}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            電子郵件:
+                                        </td>
+                                        <td>
+                                            {{data.Email}}
+                                        </td>
+                                        <td>
+                                            住家電話:
+                                        </td>
+                                        <td>
+                                            {{data.HomePhone}}
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td>
-                                        住家地址:
-                                    </td>
-                                    <td colspan="4">
-                                        {{data.HomeAddress}}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            住家地址:
+                                        </td>
+                                        <td colspan="4">
+                                            {{data.HomeAddress}}
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td>
-                                        公司名:
-                                    </td>
-                                    <td>
-                                        {{data.Company}}
-                                    </td>
-                                    <td>
-                                        職稱:
-                                    </td>
-                                    <td>
-                                        {{data.Position}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        辦公室地址:
-                                    </td>
-                                    <td colspan="3">
-                                        {{data.OfficeAddrss}}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            公司名:
+                                        </td>
+                                        <td>
+                                            {{data.Company}}
+                                        </td>
+                                        <td>
+                                            職稱:
+                                        </td>
+                                        <td>
+                                            {{data.Position}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            辦公室地址:
+                                        </td>
+                                        <td colspan="3">
+                                            {{data.OfficeAddrss}}
+                                        </td>
+                                    </tr>
 
-                                <tr>
-                                    <td>
-                                        臉書帳號:
-                                    </td>
-                                    <td>
-                                        {{data.FaceBookAccount}}
-                                    </td>
-                                    <td>
-                                        Line帳號:
-                                    </td>
-                                    <td>
-                                        {{data.LineAccount}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        備註:
-                                    </td>
-                                    <td colspan="3">
-                                        <textarea ng-model="data.Notes" class="form-control" readonly="readonly" />
-                                    </td>
-                                </tr>
-                            </table>
+                                    <tr>
+                                        <td>
+                                            臉書帳號:
+                                        </td>
+                                        <td>
+                                            {{data.FaceBookAccount}}
+                                        </td>
+                                        <td>
+                                            Line帳號:
+                                        </td>
+                                        <td>
+                                            {{data.LineAccount}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            備註:
+                                        </td>
+                                        <td colspan="3">
+                                            <textarea ng-model="data.Notes" class="form-control" readonly="readonly" />
+                                        </td>
+                                    </tr>
+                                </table>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </script>
+            </script>
 
-        <!-- The actual modal template, just a bit o bootstrap -->
-        <script type="text/ng-template" id="modal.html">
-            <div class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" ng-click="close('No')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3 class="modal-title">Contact</h3>
-                            <div class="modal-sm">
+
+            <script type="text/ng-template" id="recent.html">
+                <div class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <label class="alert alert-info"> 近期更新 </label>
+                                <table class="table">
+                                    <tr>
+                                        <th>班別</th>
+                                        <th>姓名</th>
+                                        <th>更新日期</th>
+                                    </tr>
+                                    <tr ng-repeat="x in list">
+                                        <td> {{x.ClassId}}</td>
+                                        <td> {{x.Name}}</td>
+                                        <td> {{x.ModifiedDate}}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </script>
+
+            <!-- The actual modal template, just a bit o bootstrap -->
+            <script type="text/ng-template" id="modal.html">
+                <div class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" ng-click="close('No')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 class="modal-title">Contact</h3>
+                                <div class="modal-sm">
+                                    <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" ng-click="close(data)" class="btn btn-primary" data-dismiss="modal">Save</button>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered table-responsive">
+
+                                    <tr>
+                                        <td colspan="2">
+                                            <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            上傳照片:
+                                        </td>
+                                        <td>
+                                            <input type="file" id="file" name="file" accept="image/*" />
+                                            <button ng-click="add()">Upload Photo</button> <label>Please limit to less 500k size</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            班別:
+                                        </td>
+                                        <td>
+                                            {{data.ClassId}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            姓名:
+                                        </td>
+                                        <td>
+                                            <form name="nameForm">
+                                                <input type="text" name="userName" ng-model="data.Name" required />
+                                                <div role="alert">
+                                                    <span style="color:red" class="error" ng-show="nameForm.userName.$error.required">
+                                                        Required!
+                                                    </span>
+                                                </div>
+                                            </form>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            英文名:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.EnglishName" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            性別:
+                                        </td>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <label>
+                                                            <input type="radio" name="genderm" value="M" ng-model="data.Gender">
+                                                            <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <label>
+                                                            <input type="radio" name="genderf" value="F" ng-model="data.Gender">
+                                                            <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
+                                                        </label>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            聯絡狀態:
+                                        </td>
+                                        <td>
+                                            <select name="singleSelect" id="singleSelect" ng-model="data.Status">
+                                                <option value="">---Please select---</option> <!-- not selected / blank option -->
+                                                <option value="保持聯絡" style="color:blue">保持聯絡</option> <!-- interpolation -->
+                                                <option value="失聯" style="color:slategray">失聯</option>
+                                                <option value="已歿" style="color:red">已歿</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            生日:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.Birthday" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            手機:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.CellPhone" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            電子郵件:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.Email" ng-required="true" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            住家地址:
+                                        </td>
+                                        <td>
+                                            <textarea type="text" ng-model="data.HomeAddress" class="form-control" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            住家電話:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.HomePhone" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            公司名:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.Company" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            職稱:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.Position" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            辦公室地址:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.OfficeAddrss" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            臉書帳號:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.FaceBookAccount" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            Line帳號:
+                                        </td>
+                                        <td>
+                                            <input type="text" ng-model="data.LineAccount" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            備註:
+                                        </td>
+                                        <td>
+                                            <textarea ng-model="data.Notes" class="form-control" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Modified By:
+                                        </td>
+                                        <td>
+                                            {{data.ModifiedUser}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Modified Date:
+                                        </td>
+                                        <td>
+                                            {{data.ModifiedDate}}
+                                        </td>
+                                    </tr>
+                                    <tr style="color:red">
+                                        <td>
+                                            設為隱藏模式: (隱藏通訊資料僅保留班號姓名,一旦啟動便無人可以更改)
+                                        </td>
+                                        <td>
+                                            <input type="checkbox" ng-model="data.Hide">
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <div class="modal-footer">
                                 <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                 <button type="button" ng-click="close(data)" class="btn btn-primary" data-dismiss="modal">Save</button>
                             </div>
                         </div>
-                        <div class="modal-body">
-                            <table class="table table-bordered table-responsive">
-
-                                <tr>
-                                    <td colspan="2">
-                                        <img ng-src="../Image/{{data.PhotoId}}" alt="Photo" width="200" height="200" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        上傳照片:
-                                    </td>
-                                    <td>
-                                        <input type="file" id="file" name="file" accept="image/*" />
-                                        <button ng-click="add()">Upload Photo</button> <label>Please limit to less 500k size</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        班別: 
-                                    </td>
-                                    <td>
-                                        {{data.ClassId}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        姓名:
-                                    </td>
-                                    <td>
-                                        <form name="nameForm">
-                                            <input type="text" name="userName" ng-model="data.Name" required />
-                                            <div role="alert">
-                                                <span style="color:red" class="error" ng-show="nameForm.userName.$error.required">
-                                                    Required!
-                                                </span>
-                                            </div>
-                                        </form>
-
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        英文名:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.EnglishName" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        性別:
-                                    </td>
-                                    <td>
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <label>
-                                                        <input type="radio" name="genderm" value="M" ng-model="data.Gender">
-                                                        <img ng-src="../Image/male.png" alt="Photo" width="50" height="50" />
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <label>
-                                                        <input type="radio" name="genderf" value="F" ng-model="data.Gender">
-                                                        <img ng-src="../Image/female.png" alt="Photo" width="50" height="50" />
-                                                    </label>
-                                                </td>
-                                            </tr>
-
-                                        </table>
-
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        聯絡狀態:
-                                    </td>
-                                    <td>
-                                        <select name="singleSelect" id="singleSelect" ng-model="data.Status">
-                                            <option value="">---Please select---</option> <!-- not selected / blank option -->
-                                            <option value="保持聯絡" style="color:blue">保持聯絡</option> <!-- interpolation -->
-                                            <option value="失聯" style="color:slategray">失聯</option>
-                                            <option value="已歿" style="color:red">已歿</option>
-                                        </select>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        生日:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.Birthday" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        手機:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.CellPhone" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        電子郵件:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.Email" ng-required="true" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        住家地址:
-                                    </td>
-                                    <td>
-                                        <textarea type="text" ng-model="data.HomeAddress" class="form-control" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        住家電話:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.HomePhone" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        公司名:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.Company" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        職稱:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.Position" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        辦公室地址:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.OfficeAddrss" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        臉書帳號:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.FaceBookAccount" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        Line帳號:
-                                    </td>
-                                    <td>
-                                        <input type="text" ng-model="data.LineAccount" />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        備註:
-                                    </td>
-                                    <td>
-                                        <textarea ng-model="data.Notes" class="form-control" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Modified By:
-                                    </td>
-                                    <td>
-                                        {{data.ModifiedUser}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Modified Date:
-                                    </td>
-                                    <td>
-                                        {{data.ModifiedDate}}
-                                    </td>
-                                </tr>
-                                <tr style="color:red">
-                                    <td>
-                                        設為隱藏模式: (隱藏通訊資料僅保留班號姓名,一旦啟動便無人可以更改)
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" ng-model="data.Hide">
-                                    </td>
-                                </tr>
-                            </table>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" ng-click="close('No')" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <button type="button" ng-click="close(data)" class="btn btn-primary" data-dismiss="modal">Save</button>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </script>
+            </script>
 
-    </div>
+
+
+
+
+
+        </div>
 
 
 

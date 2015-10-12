@@ -11,12 +11,17 @@
 <html>
 
 @Html.Partial("~/Views/Shared/_Contacts.cshtml", model: "NCCU")
+
+<div id="directionsPanel"></div>
  
 </html>
 
 
 <script>
- 
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+
+    var directionsService = new google.maps.DirectionsService();
+
     var app = angular.module('mainapp', ['angularModalService'])
 
     app.value("selectedclassId", "100");
@@ -46,10 +51,10 @@
     });
 
     app.controller('serviceCtrl', function ($rootScope, $scope, $http,$filter, ModalService, data) {
-              
+
 
         angular.element(document).ready(function () {
-  
+
         $http.get("/api/classmates/93LandEconomics")
         .error(function (error) {
             alert(error);
@@ -99,10 +104,7 @@
 
 
             $scope.addNew = function () {
-
                 
-
-
                 data.Name = '';
                 data.Birthday = '';
                 data.CellPhone = '';
@@ -176,7 +178,7 @@
             };
 
             $scope.vcard = function (itemSelected) {
-                   
+
                     $http.post("/api/classmate/vcard", itemSelected)
                     .error(function (e) {
                         alert(e);
@@ -184,15 +186,108 @@
                     .then(function (results) {
 
                         var data = results.data;
-                             
+
                         var file = new Blob([data], { type: 'text/x-vcard; charset=iso-8859-1' });
-                                             
+
                         saveAs(file, 'contact.vcf');
 
                     })
-              };
+            };
+
+            // Google Map 
+
+            var mapOptions = {
+
+                center: new google.maps.LatLng(25.046008, 121.542955),
+                zoom: 10
+            };
+
+            $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
+
+            directionsDisplay.setMap($scope.map);
+
+            directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+
+            $scope.markers = [];
+
+            angular.forEach($scope.list, function (item) {
+                if (item.HomeAddress != '')
+                {
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ 'address': item.HomeAddress }, function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                             createMarker(results[0].geometry.location, item.Name, item.HomeAddress); 
+                        } else {
+                            //alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                    });
+                    
+                    
+                }
+                
+            });
+
+            var infoWindow = new google.maps.InfoWindow();
+
+            var createMarker = function (position,title,desc) {
+
+                var marker = new google.maps.Marker({
+                    map: $scope.map,
+                    position: position,
+                    title: title
+                });
+                marker.content = '<div class="infoWindowContent">' + desc + '</div>';
+
+                latlng = position;
+
+                var tohere = '<br>Directions: <b>To here<\/b> - <a href="javascript:fromhere()">From here<\/a>' +
+                                '<br>Start address:<form action="javascript:getDirections()">' +
+                                '<input type="text" SIZE=40 MAXLENGTH=40 name="saddr" id="saddr" value="" /><br>' +
+                                '<INPUT value="Get Directions" TYPE="button" onclick="getDirections()"><br>' +
+                                'Walk <input type="checkbox" name="walk" id="walk" /> &nbsp; Avoid Highways <input type="checkbox" name="highways" id="highways" />' +
+                                '<input type="hidden" id="daddr" value="' + position.lat() + ',' + position.lng() +
+                                '"/>';
 
 
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content + '<P/>' + tohere);
+                    infoWindow.open($scope.map, marker);
+                });
+
+                $scope.markers.push(marker);
+            }
+
+            $scope.openInfoWindow = function (e, selectedMarker) {
+                e.preventDefault();
+                google.maps.event.trigger(selectedMarker, 'click');
+            }
+
+
+            $scope.export = function () {
+
+                if ($scope.list.length == 0) {
+                    alert("沒有資料");
+
+                    return;
+
+                }
+
+
+                $http.post("/api/classmate/export", $scope.list)
+                .error(function (e) {
+                    alert(e);
+                })
+                .then(function (results) {
+
+                    var data = results.data;
+
+                    var file = new Blob([data], { type: "application/excel" });
+
+                    saveAs(file, 'contacts.xls');
+                })
+
+            };
         }
         )
         });
@@ -213,6 +308,8 @@
         });
 
         $scope.$on('$destroy', refreshListener);
+
+       
 
     });
 
@@ -255,7 +352,7 @@
             if (result != null && result.Name == '')
             {
                 alert('Name cannot be empty! New Contact will not be saved');
-                return; 
+                return;
             }
 
             if (result != null && result != 'No' ) {
@@ -283,6 +380,35 @@
     app.controller('PopupController', function ($scope, data) {
         $scope.data = data;
     });
+
+
+    function getDirections() {
+        // ==== Set up the walk and avoid highways options ====
+
+        
+        var request = {};
+        if (document.getElementById("walk").checked) {
+            request.travelMode = google.maps.DirectionsTravelMode.WALKING;
+        } else {
+            request.travelMode = google.maps.DirectionsTravelMode.DRIVING;
+        }
+
+        if (document.getElementById("highways").checked) {
+            request.avoidHighways = true;
+        }
+        // ==== set the start and end locations ====
+        var saddr = document.getElementById("saddr").value;
+        var daddr = document.getElementById("daddr").value;
+        
+        request.origin = saddr;
+        request.destination = daddr;
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+            } else alert("Directions not found:" + status);
+        });
+    }
+
 
 
 </script>

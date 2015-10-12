@@ -35,6 +35,22 @@ namespace HSNUAlumni.Web.Controllers.api
             return list; 
         }
 
+        [Route("api/classmates/recent")]
+        [HttpGet]
+        public IEnumerable<Classmate> GetRecentHSActive()
+        {
+            Helper.Guard.New().IsAuthentic();
+
+            var list = op.GetAllContacts();
+
+            // filter out by class Id 
+
+            var items = list.Where(x => x.ClassId.StartsWith("6")).OrderByDescending(x => x.Timestamp).Take(10);
+
+            return items; 
+        }
+
+
         [Route("api/classmate/{classId}/{name}")]
         [HttpGet]
         public Classmate GetClassmateEntity(string classId, string name)
