@@ -66,6 +66,10 @@ namespace HSNUAlumni.ModelLib
         public string ModifiedDate { get; set;}
 
         public bool Hide { get; set; }
+
+        public string Lat { get; set; }
+
+        public string Lng { get; set; }
     }
 
     public enum ClassmateStatus

@@ -38,6 +38,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Excel.4.5.dll</HintPath>
     </Reference>
+    <Reference Include="Geocoding, Version=3.3.0.0, Culture=neutral, PublicKeyToken=7c714700b88674c7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Geocoding.net.3.3.0\lib\net40\Geocoding.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -86,6 +90,7 @@
   <ItemGroup>
     <Compile Include="AddAgreement.cs" />
     <Compile Include="CloudTableOperation.cs" />
+    <Compile Include="GoogleMap.cs" />
     <Compile Include="ImportClassmatesFromFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

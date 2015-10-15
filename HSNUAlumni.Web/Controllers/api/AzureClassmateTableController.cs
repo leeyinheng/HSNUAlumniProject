@@ -12,6 +12,8 @@ using System.IO;
 using System.Text;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using Geocoding;
+using Geocoding.Google;
 
 namespace HSNUAlumni.Web.Controllers.api
 {
@@ -50,6 +52,19 @@ namespace HSNUAlumni.Web.Controllers.api
             return items; 
         }
 
+        [Route("api/classmates/map")]
+        [HttpGet]
+        public IEnumerable<Classmate> GetHSMapUsers()
+        {
+            Helper.Guard.New().IsAuthentic();
+
+            var list = op.GetAllContacts();
+
+            var items = list.Where(x => x.ClassId.StartsWith("6") && x.HomeAddress != string.Empty).ToList();
+
+            return items;
+        }
+
 
         [Route("api/classmate/{classId}/{name}")]
         [HttpGet]
@@ -74,14 +89,19 @@ namespace HSNUAlumni.Web.Controllers.api
 
                 entity.ModifiedDate = DateTime.Now.ToShortDateString();
 
-                entity.ModifiedUser = User.Identity.Name; 
+                entity.ModifiedUser = User.Identity.Name;
 
+                var map = new GoogleMap();
+
+                map.GetGeoCode(entity); 
+                          
                 op.AddorUpdateEntity(entity);
 
             }
          
         }
 
+        
         [Route("api/classmates/AddorUpdateList")]
         [HttpPost]
         public void AddOrUpdateClassmate(List<Classmate> list)

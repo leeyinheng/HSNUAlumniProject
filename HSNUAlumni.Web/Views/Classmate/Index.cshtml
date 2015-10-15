@@ -13,10 +13,16 @@
 
 @Html.Partial("~/Views/Shared/_Contacts.cshtml", model: "HSNU")
 
+<div id="directionsPanel"></div>
+
 </html>
 
 
 <script>
+
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+
+    var directionsService = new google.maps.DirectionsService();
 
     var app = angular.module('mainapp', ['angularModalService'])
 
@@ -43,7 +49,9 @@
         OfficeAddrss: '',
         PhotoId: '',
         ModifiedUser: '',
-        ModifiedDate: ''
+        ModifiedDate: '',
+        Lat: '',
+        Lng:''
     });
 
     app.value("updatelist", []); 
@@ -95,6 +103,8 @@
                 data.Position = itemSelected.Position;
                 data.SeatNumber = itemSelected.SeatNumber;
                 data.Status = itemSelected.Status;
+                data.Lat = itemSelected.Lat; 
+                data.Lng = itemSelected.Lng; 
                 
                 ModalService.showModal({
                     templateUrl: 'modal.html',
@@ -205,8 +215,7 @@
 
                 })
             };
-
-
+            
             $scope.export = function () {
 
                 if (selectedclassId == null || selectedclassId == '') {
@@ -238,10 +247,91 @@
                     saveAs(file, 'contacts.xls'); 
                 })
 
-            }; 
+            };
+
+          
         }
         )
         });
+
+
+        //mark all classmates on google map 
+        $http.get("/api/classmates/map")
+        .error(function (error) { alert(error) })
+        .success(function (response) {
+            $scope.mapusers = response;
+
+            // Google Map 
+
+            var mapOptions = {
+
+                center: new google.maps.LatLng(25.046008, 121.542955),
+                zoom: 2
+            };
+
+            $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
+
+            directionsDisplay.setMap($scope.map);
+
+            directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+
+            $scope.markers = [];
+
+
+            var createMarker = function (a, b, classid, title, desc, photo) {
+
+                var position = { lat: a, lng: b };
+
+                var marker = new google.maps.Marker({
+                    map: $scope.map,
+                    position: position,
+                    title: classid + " | " + title 
+                });
+                marker.content =  "<a href='/Image/" + photo + "' target='_blank'><img src='/Image/" + photo +  "' alt='Photo' width='50' height='50' /></a>" + '<div class="infoWindowContent">' + desc + '</div>';
+
+                var tohere = '<br>Directions: <b>To here<\/b> - <a href="javascript:fromhere()">From here<\/a>' +
+                                 '<br>Start address:<form action="javascript:getDirections()">' +
+                                 '<input type="text" SIZE=40 MAXLENGTH=40 name="saddr" id="saddr" value="" /><br>' +
+                                 '<INPUT value="Get Directions" TYPE="button" onclick="getDirections()"><br>' +
+                                 'Walk <input type="checkbox" name="walk" id="walk" /> &nbsp; Avoid Highways <input type="checkbox" name="highways" id="highways" />' +
+                                 '<input type="hidden" id="daddr" value="' + a + ',' + b +
+                                 '"/>';
+
+
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content + '<P/>' + tohere);
+                    infoWindow.open($scope.map, marker);
+                });
+
+                $scope.markers.push(marker);
+            }
+
+            var i = 0 
+            angular.forEach($scope.mapusers, function (item) {
+                if (item.Lng != null && item.Lng != '') {
+
+                    if (item.PhotoId == null)
+                    {
+                        item.PhotoId = "profile.png"; 
+                    }
+                                        
+
+                    createMarker(parseFloat(item.Lat), parseFloat(item.Lng), item.ClassId, item.Name, item.HomeAddress, item.PhotoId);     
+
+                }
+
+            });
+
+            var infoWindow = new google.maps.InfoWindow();
+                    
+
+            $scope.openInfoWindow = function (e, selectedMarker) {
+                e.preventDefault();
+                google.maps.event.trigger(selectedMarker, 'click');
+            }
+
+        }); 
 
         var refreshListener = $rootScope.$on('refresh', function () {
 
@@ -343,5 +433,8 @@
         $scope.list = updatelist
     }); 
   
-
+    function sleepFor(sleepDuration) {
+        var now = new Date().getTime();
+        while (new Date().getTime() < now + sleepDuration) { /* do nothing */ }
+    }
 </script>

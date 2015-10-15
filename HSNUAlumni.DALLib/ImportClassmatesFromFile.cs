@@ -14,6 +14,8 @@ namespace HSNUAlumni.DALLib
     {
         private readonly DALLib.CloudTableOperation<Classmate> op = new DALLib.CloudTableOperation<Classmate>("classmates");
 
+        private readonly DALLib.GoogleMap map = new DALLib.GoogleMap(); 
+
         public void ImportData(string filepath, string user = "system")
         {
             //try
@@ -83,6 +85,8 @@ namespace HSNUAlumni.DALLib
                     item.SeatNumber = row[columns["SeatNumber"]].ToString();
 
                     item.Status = row[columns["Status"]].ToString().Trim();
+
+                    map.GetGeoCode(item); 
 
                     list.Add(item);
                                       
